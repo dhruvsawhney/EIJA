@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class EditPlaysControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @edit_play = edit_plays(:one)
-  end
-
+  test correct play name do
+    assert_equal "My String", @editplays['one']['play']
+    end
+=begin
   test "should get index" do
     get edit_plays_url
     assert_response :success
@@ -45,4 +45,5 @@ class EditPlaysControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to edit_plays_url
   end
+=end
 end
