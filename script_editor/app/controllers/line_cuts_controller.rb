@@ -8,5 +8,8 @@ class LineCutsController < ApplicationController
   # do not use this
   def delete
   	LineCut.where(edit_id: params[:editI],line_id: params[:lineId]).first.delete
+
   end
+
 end
+

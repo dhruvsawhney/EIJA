@@ -1,4 +1,4 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
+// This is a manifest file that'll b    e compiled into application.js, which will include all the files
 // listed below.
 //
 // Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
@@ -10,9 +10,9 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery-1.4.2.min
-//= require jquery
-//= require bootstrap-sprockets
+//= require jquery3
 //= require jquery_ujs
+//= require popper
+//= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
