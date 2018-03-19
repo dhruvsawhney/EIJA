@@ -1,4 +1,5 @@
 class CutsController < ApplicationController
+
   def new
   	#  are combining new (GET) and create (POST) actions
   	@cut = Cut.create(edit_id: params[:editI],word_id: params[:wordI])
@@ -38,7 +39,5 @@ class CutsController < ApplicationController
 			editLength = @line.currLength + 1
 			@line.update(currLength: editLength)
 		end
-
-	end
-
+	  end
 end

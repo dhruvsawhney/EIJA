@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   post 'cuts/new'
   post 'cuts/delete'
-  devise_for :users, :controllers => { registrations: 'registrations' }
+  devise_for :users, controllers: { registrations: 'users/registrations' }
+  devise_for :admins, controllers: { registrations: 'admins/registrations' }
   resources :edit_plays
   resources :plays
   resources :edits
