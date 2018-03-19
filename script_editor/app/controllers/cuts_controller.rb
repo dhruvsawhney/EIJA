@@ -18,7 +18,6 @@ class CutsController < ApplicationController
 				LineCut.create(edit_id: params[:editI], line_id: @line.id)
 			end
 		end
-
   end
 
   def delete
@@ -39,5 +38,10 @@ class CutsController < ApplicationController
 			editLength = @line.currLength + 1
 			@line.update(currLength: editLength)
 		end
+<<<<<<< HEAD
 	  end
+=======
+	end
+
+>>>>>>> develop-dhruv2
 end
