@@ -9,6 +9,12 @@ class EditsController < ApplicationController
     @play = @edit.play
     @acts = Act.joins(:play).where(:play_id => @play.id).order(:number)
     @relCuts = Cut.where(:edit_id => @edit.id).pluck(:word_id).to_a.to_set
+
+    l = Line.new
+    @hash = l.countAnalytics
+    # puts "#{@hash}"
+    # puts "#{@hash.length}"
+    # Line.countAnalytics
   end
   def compress
     @edit = Edit.find(params[:id])

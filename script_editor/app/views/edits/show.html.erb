@@ -8,8 +8,15 @@ of the plays is almost identical except for the parts pertaining to making edits
 This means that changes to non-editing parts of the view need to be made in both show files.
 However, they both utilize the same .scss file. -->
 
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body style = "background-color: #faebd7">
+<html>
+
+<%= javascript_include_tag "edits_show" %>
+
+<body style = "background-color: #faebd7">
     <p id="notice"></p>
 
 
@@ -42,62 +49,35 @@ However, they both utilize the same .scss file. -->
         <div class="modal-content">
             <span class="close2">&times;</span>
             <div class="hidden-analytics" id="hidden-analytics"></div>
-
-            <!-- Create a button for each act and scene in the play. -->
-            <% lastact = 0 %>
-            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
-            <div class="analytics-actRow">
-                <br>
-                <div class="analytics-column analytics-left"></div>
-                <div class="analytics-column analytics-middle">
-                    Original Word Count
-                </div>
-                <div class="analytics-column analytics-right">
-                    New Word Count
-                </div>
-                <br>
-            </div>
-            <% actScenes.each do |actScene| %>
-              <% if lastact != actScene.act_number %>
-                <% lastact = actScene.act_number %>
-                <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
-                <% cutActWords = Word.joins(:line => :scene).joins(:cuts).where(scenes: {:act_id => actScene.act_id}).where(cuts: {:edit_id => @edit.id}).count %>
-                <div class="analytics-actRow">
-                    <div class="analytics-column analytics-left">
-                        <%= "ACT " + actScene.act_number.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-middle">
-                        <%= actWords.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-right">
-                        <%= (actWords-cutActWords).to_s %>
-                    </div>
-                    <br>
-                </div>
+          <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">Character</th>
+                <th scope="col"># Line numbers</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @hash.each do |speaker| %>
+                <% a = speaker %>
+                <% spk = a[0] %>
+                <% lineNum = a[1] %>
+              <tr>
+                <td> <%= spk %></td>
+                <td> <%= lineNum.to_s() %></td>
+              </tr>
               <% end %>
-              <% sceneWords = Word.joins(:line).where(lines: {:scene_id => actScene.scene_id}).count %>
-              <% cutSceneWords = Word.joins(:line).joins(:cuts).where(lines: {:scene_id => actScene.scene_id}).where(cuts: {:edit_id => @edit.id}).count %>
-              <div class="analytics-sceneRow">
-                <div class="analytics-column analytics-left">
-                        <%= "SCENE " + actScene.scene_number.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-middle">
-                        <%= sceneWords.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-right">
-                        <%= (sceneWords-cutSceneWords).to_s %>
-                    </div>
-                    <br>
-              </div>
+              </tbody>
+          </table>
 
-            <% end %>
+                </div>
+
+
 
             <% analyticstext = "" %>
             <script>
                 document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
             </script>
         </div>
-    </div>
 
     <!-- 
     This is the code for the navigation bar on the left side of the view. 
@@ -243,6 +223,8 @@ However, they both utilize the same .scss file. -->
     </div>
 
 <script>
+
+
     //Create events for the various functions associated with strikethrough.
 
     //If we click the mouse down, tell the program we're dragging the mouse.
@@ -252,7 +234,7 @@ However, they both utilize the same .scss file. -->
     //document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
 
     //If the mouse is clicked down over an element, cut the element.
-    //document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
+    // document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
 
     //If the mouse is lifted, tell the program that we're no long dragging the mouse.
     document.querySelector(".script-main").addEventListener("mouseup", lift, false);
@@ -284,6 +266,7 @@ However, they both utilize the same .scss file. -->
     //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
     //If a server call fails, try again.
     $( document ).ajaxError( function( event, jqxhr, settings, thrownError) {
+        console.log(settings);
         $.ajax(settings);
     });
 
@@ -341,7 +324,6 @@ However, they both utilize the same .scss file. -->
     {
         var script = $(".script-main")[0];
         var cEditId = parseInt(script.id);
-
         if(cutlist.length == 0 && uncutlist.length == 0){
           var modal3 = document.getElementById("save-modal");
           modal3.style.display = "none";
@@ -434,7 +416,8 @@ However, they both utilize the same .scss file. -->
     function doCut(e) {
         var clickedItem = e.target;
         // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
-        if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "stage" || clickedItem.getAttribute("class") == "cstage")
+        if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc"
+            || clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "stage" || clickedItem.getAttribute("class") == "cstage")
         {
             if (mousedrag && !e.shiftKey) {
                 literalCut(clickedItem,true);
