@@ -1,1 +1,0 @@
-json.array! @edit_plays, partial: 'edit_plays/edit_play', as: :edit_play
