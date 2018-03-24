@@ -1,6 +1,9 @@
 require 'nokogiri'
 
 class EditsController < ApplicationController
+  before_action :redirect_unless_admin
+
+
   def show
     @edit = Edit.find(params[:id])
     @play = @edit.play
@@ -28,4 +31,14 @@ class EditsController < ApplicationController
     @link = "/edits/" + (@user.id.to_s)
     redirect_to @link
   end
+
+  private
+  #dont let normal user edit
+  def redirect_unless_admin
+    unless current_user.try(:admin?)
+      flash[:error] = "Only admins can do that"
+      @link = "/plays/" + (current_user.id.to_s)
+    end
+  end
+
 end

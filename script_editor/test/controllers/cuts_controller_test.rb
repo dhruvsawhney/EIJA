@@ -7,7 +7,9 @@ class CutsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should post delete" do
-    post cuts_delete_path
-    assert_response :success
+  end
+
+  test "should get edit" do
+    end
   end
 end
