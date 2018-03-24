@@ -3,6 +3,15 @@ class Line < ApplicationRecord
   has_many :edits, through: :line_cuts
   has_many :words
 
+  # attr_accessor :speaker
+  #
+  # def initialize
+  #   @errors = ActiveModel::Errors.new(self)
+  # end
+  #
+  # def validate!
+  #   errors.add(message: "incorrect speaker") unless getAllSpeakers.keys.include?(speaker)
+  # end
 
   # Count the number of lines per character
   # output: A Hash, key is the speaker, value is the number of lines
@@ -318,18 +327,26 @@ class Line < ApplicationRecord
         #### the previous-speaker ####
         val = (i - 1)
         if val >= 0 and blocks[val][0] != "STAGE"
+          # client would like the last word,
+          # instead of the last line
 
           prev_block = blocks[val]
           prev_block_lines = prev_block[1]
           last_line = prev_block_lines[prev_block_lines.length - 1]
 
           last_line_wds = []
-          last_line.each do |lol|
-            last_line_wds.append(lol[1])
-          end
 
-          prev_sentence = last_line_wds.join(" ")
-          i2 = [prev_block[0], [prev_sentence]]
+          # the last line removed as per Client request
+          # last_line.each do |lol|
+          #   last_line_wds.append(lol[1])
+          # end
+          # prev_sentence = last_line_wds.join(" ")
+
+          # the last word
+          last_line_wds = last_line[last_line.length-1][1]
+          last_line_wds = ".."*5 + last_line_wds
+
+          i2 = [prev_block[0], [last_line_wds]]
           result.append(i2)
         end
         #### the speaker ####
@@ -350,9 +367,9 @@ class Line < ApplicationRecord
     # the scene ID
     # the speaker
 
-    # lol = getCueScript(1, "\nEGEON\n")
+    lol = getCueScript(1, "\nEGEON\n")
 
-    lol = getCueScript(2, "\nFIRST\n \nMERCHANT\n")
+    # lol = getCueScript(2, "\nFIRST\n \nMERCHANT\n")
 
     return lol
 
@@ -378,16 +395,17 @@ class Line < ApplicationRecord
 
   # output: create a list of all speakers in the Play
   def getAllSpeakers
-    speakerLst = []
+    speakerHash = {}
 
     arr = Line.find_by_sql("select distinct(speaker) from Lines")
 
     arr.each do |i|
-      speakerLst.append(i.speaker)
+      val = i.speaker.gsub(/\n/,"")
+      speakerHash[val] = i.speaker
     end
 
-    return speakerLst
-
+    speakerHash = Hash[speakerHash.sort]
+    return speakerHash
   end
 
   # output: a list of all sceneIDs
@@ -402,6 +420,22 @@ class Line < ApplicationRecord
 
     return sceneIDs
   end
-  
+
+  # input: speaker: speaker Name
+  # output: Hash, Key: scene-id, value: LOL [speaker,[lines]]
+  def getAllCueScript(speaker)
+    sceneIDs = getAllScenes
+    result = {}
+
+    sceneIDs.each do |sceneID|
+      val = getCueScript(sceneID,speaker)
+      result[sceneID] = val
+    end
+
+    result = Hash[result.sort]
+    return result
+  end
+
+
 end
 

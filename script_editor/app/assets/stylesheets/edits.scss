@@ -1,0 +1,75 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+#A, #B {
+  position: absolute;
+}
+#A {
+  top: 0px;
+  width: 200px;
+  bottom: 0px;
+  background:orange;
+}
+#B {
+  top: 0px;
+  left: 200px;
+  right: 0;}
+
+@media (min-width: 768px){
+  .bd-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    z-index: 1000;
+    height: calc(100vh - 4rem);
+  }
+}
+
+.top {
+  position: sticky;
+  top: -55px;
+  right: 0;
+  left: 0;
+  background-color: whitesmoke;
+}
+
+.accordion-h6{
+  right: -10px;
+}
+
+.accordion-toggle {
+  border-bottom: 1px solid #cccccc;
+  cursor: pointer;
+  margin: 0;
+  padding: 5px 0;
+  position: relative;}
+.accordion-toggle.active:after{
+  content:"";
+  position:absolute;
+  right:10px;
+  top:17px;
+  width:0;
+  height:0;
+  border-bottom:5px solid #000000;
+  border-left:5px solid rgba(0,0,0,0);
+  border-right:5px solid rgba(0,0,0,0);}
+.accordion-toggle:before{
+  content:"";
+  position:absolute;
+  right:10px;
+  top:17px;
+  width:0;
+  height:0;
+  border-top:5px solid #000;
+  border-left:5px solid rgba(0,0,0,0);
+  border-right:5px solid rgba(0,0,0,0);}
+.accordion-toggle.active:before{display:none;}
+.accordion-content {display: none;}
+.accordion-toggle.active {color: #000000;}
+
+
+td {
+  padding: 50px 0;
+}

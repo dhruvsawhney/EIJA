@@ -1,0 +1,22 @@
+
+<div style="text-align: center;"> CueScript for <%= @character %> </div>
+
+<% @allLines.each do |sceneNum, blocks| %>
+
+  <div style="text-align: center;"> Scene <%= sceneNum%> </div>
+
+  <% blocks.each do |block| %>
+    <p>
+      <%= block[0] %>
+
+      <% lines = block[1] %>
+      <br>
+      <% lines.each do |line| %>
+        <%= line %>
+      <% end %>
+    </p>
+  <% end %>
+
+<% end %>
+
+<%= link_to 'Back', lines_show_path %>

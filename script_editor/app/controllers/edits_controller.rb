@@ -12,6 +12,7 @@ class EditsController < ApplicationController
 
     l = Line.new
     @hash = l.countAnalytics
+    @scene1 = l.getActScene(1)
     # puts "#{@hash}"
     # puts "#{@hash.length}"
     # Line.countAnalytics

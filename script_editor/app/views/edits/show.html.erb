@@ -14,9 +14,7 @@ However, they both utilize the same .scss file. -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html>
 
-<%= javascript_include_tag "edits_show" %>
-
-<body style = "background-color: #faebd7">
+<body>
     <p id="notice"></p>
 
 
@@ -45,11 +43,17 @@ However, they both utilize the same .scss file. -->
     <!--
         The analytics will show up here as a popup.
     -->
-    <div id="analytics-modal" class="shown-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="analytics-modal">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class="hidden-analytics" id="hidden-analytics"></div>
-          <table class="table">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
               <thead>
               <tr>
                 <th scope="col">Character</th>
@@ -61,166 +65,209 @@ However, they both utilize the same .scss file. -->
                 <% a = speaker %>
                 <% spk = a[0] %>
                 <% lineNum = a[1] %>
-              <tr>
-                <td> <%= spk %></td>
-                <td> <%= lineNum.to_s() %></td>
-              </tr>
+                <tr>
+                  <td> <%= spk %></td>
+                  <td> <%= lineNum.to_s() %></td>
+                </tr>
               <% end %>
               </tbody>
-          </table>
-
-                </div>
-
-
-
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
             <% analyticstext = "" %>
             <script>
                 document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
             </script>
         </div>
 
-    <!-- 
-    This is the code for the navigation bar on the left side of the view. 
-    -->
-    <div class="script-side-bar">
-        <div class="play-navigation">
+      <div class="row" id="collapseExample">
+        <div class="col-sm-3 bd-sidebar top" id="sidebar">
 
-            <!-- This button shows the play's synopsis. -->
-            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
+          <div class="accordion">
+            <h6 class="accordion-toggle accordion-h6">Act 1</h6>
+            <div class="accordion-content">
+              <p>
+                Scence 1
+              </p>
+              <p>
+                Scence 2
+              </p>
+            </div>
 
-            <!-- This button shows the play's analytics. -->
-            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
+            <h4 class="accordion-toggle">Accordion 2</h4>
+            <div class="accordion-content">
+              <p>
+                Lorem ipsum dolor sit amet mauris eu turpis.
+              </p>
+            </div>
 
-            <!-- Create a button for each act and scene in the play.
-            The ability to navigate through the play is handled via href tags. -->
-            <% lastact = 0 %>
-            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
-            <% actScenes.each do |actScene| %>
-              <% if lastact != actScene.act_number %>
-                <% lastact = actScene.act_number %>
-                <% actLink = "/edits/" + @edit.id.to_s + "/#act" + actScene.act_number.to_s %>
-                <a style = color:black href=<%=actLink%> >
-                <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
-                </a>
-                <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
-                </script>
-              <% end %>
-              <% sceneLink = "/edits/" + @edit.id.to_s + "/#act" + actScene.act_number.to_s + "scene" + actScene.scene_number.to_s %>
-              <a style = color:black href=<%=sceneLink%> >
-              <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
-              </a>
-              <script>
-                  document.getElementById('current-scene').id = '<%= escape_javascript "ns" + actScene.scene_number.to_s %>';
-              </script>
-
-            <% end %>
-
-
+            <h4 class="accordion-toggle">Accordion 3</h4>
+            <div class="accordion-content">
+              <p>
+                Vivamus facilisisnibh scelerisque laoreet.
+              </p>
+            </div>
+          </div>
         </div>
-    </div>
 
-    <!-- 
+
+
+
+          <div class="col-sm-6">
+            <h4> Act 1:</h4>
+            <h6> Scene 1</h6>
+              <tr>
+                <td>1</td>
+                <td>line</td>
+              </tr>
+
+          </div>
+          <div class="col-sm-3">
+          </div>
+        </div>
+
+
+    <!--<div class="container" >-->
+      <!--<div class="row">-->
+        <!--
+        This is the code for the navigation bar on the left side of the view.
+        -->
+        <!--<div class="col-md-2" id="sidemenu">-->
+          <!--<div class="mt-5 mb-3" >-->
+            <!--<ul class="nav flex-md-column flex-row justify-content-between navbar-nav mr-auto" >-->
+              <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Link</a>-->
+              <!--</li>-->
+              <!--<li class="nav-item"><a href="#sec1" class="nav-link active pl-0">One</a></li>-->
+              <!--<li class="nav-item"><a href="#sec2" class="nav-link pl-0">Two</a></li>-->
+              <!--<li class="nav-item">-->
+                <!--<a href="#sec3" class="nav-link pl-0">Three</a>-->
+                <!--<ul class="nav flex-md-column ml-2 hidden-sm-down">-->
+                  <!--<li class="nav-item"><a href="#sec3a" class="nav-link">Section A</a></li>-->
+                  <!--<li class="nav-item"><a href="#sec3b" class="nav-link">Section B</a></li>-->
+                <!--</ul>-->
+              <!--</li>-->
+              <!--<li class="nav-item"><a href="#sec4" class="nav-link pl-0">Four</a></li>-->
+              <!--<li class="nav-item"><a href="#sec5" class="nav-link pl-0">Five</a></li>-->
+              <!--<li class="nav-item"><a href="#sec6" class="nav-link pl-0">Six</a></li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <% if false %>
+        <!--
+        This is the code for the actual script part of the view.
+        -->
+        <!--<div class="script-main col-md-8" id = <%= @edit.id.to_s %>>-->
+          <!--&lt;!&ndash; We loop through each act in order to create the script. &ndash;&gt;-->
+          <!--<% @acts.each do |act| %>-->
+            <!--<% actId = "act" + (act.number).to_s%>-->
+            <!--<a id=<%= actId %> >-->
+              <!--<div class="actDiv" id="Diva"><div class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </div>-->
+            <!--</a>-->
+            <!--<% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>-->
+            <!--&lt;!&ndash; We then loop through each scene in each act. &ndash;&gt;-->
+            <!--<% rscenes.each do |scene| %>-->
+              <!--<% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>-->
+              <!--<a id=<%= sceneId %> >-->
+                <!--<div class="sceneDiv" id="Divs">-->
+                  <!--<br> <br>-->
+                  <!--<div class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </div>-->
+              <!--</a>-->
+              <!--<br>-->
+              <!--&lt;!&ndash; We heavily utilize the join function and our database to display the words quickly and efficiently. &ndash;&gt;-->
+              <!--&lt;!&ndash;credit to kombajn zbozowy for their "not in" implementation:-->
+              <!--https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib&ndash;&gt;-->
+              <!--<% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>-->
+              <!--<% last_number = 0 %>-->
+              <!--<% currentSpeaker = "" %>-->
+              <!--<% wordLines.each do |wordline| %>-->
+                <!--&lt;!&ndash; Lines that are stage directions are tagged as such and handled differently from regular lines. &ndash;&gt;-->
+                <!--<% if wordline.isStage %>-->
+                  <!--<% if @relCuts.include? wordline.wordid %>-->
+                    <!--<br/>-->
+                    <!--<button class="cstage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>-->
+                      <!--<%= wordline.text %>-->
+                    <!--</button>-->
+                    <!--<br>-->
+                  <!--<% else %>-->
+                    <!--<br/>-->
+                    <!--<button class="stage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>-->
+                      <!--<%= wordline.text %>-->
+                    <!--</button>-->
+                    <!--<br>-->
+                  <!--<% end %>-->
+                <!--<% else %>-->
+                  <!--<% if wordline.lineNum != last_number %>-->
+                    <!--<% last_number = wordline.lineNum %>-->
+                    <!--<% if (currentSpeaker != wordline.speaker) %>-->
+                      <!--<% currentSpeaker = wordline.speaker %>-->
+                      <!--<br><br> <p class="speaker"> <%= wordline.speaker %> </p>-->
+                    <!--<% end %>-->
+                    <!--<br>-->
+                    <!--<p class="lineNum"><%= wordline.lineNum %></p>-->
+                  <!--<% end %>-->
+                  <!--<% if @relCuts.include? wordline.wordid %>-->
+                    <!--<button class ="cword" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>-->
+                  <!--<% else %>-->
+                    <!--<button class ="word" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>-->
+                  <!--<% end %>-->
+                  <!--<%= wordline.text %>-->
+                  <!--</button>-->
+                <!--<% end %>-->
+              <!--<% end %>-->
+            <!--<% end %>-->
+            <!--</div>-->
+          <!--<% end %>-->
+          <!--</div>-->
+      <!--<br/>-->
+    <!--</div>-->
+ <% end %>
+    <!--
     This is the code for the bar on the right side of the screen that explains
     how to strikethrough text and contains the buttons for saving and toggling
     between views.
     -->
-    <div class="script-editor">
-        <div class="edit-explanation">
+    <!--<div class="script-editor col-md-2">-->
+      <!--<div class="edit-explanation">-->
 
-            <span class="edit-explanation-text">
-            Click and drag in order to strikethrough words.
-            </span>
+            <!--<span class="edit-explanation-text">-->
+            <!--Click and drag in order to strikethrough words.-->
+            <!--</span>-->
 
-            <span class="edit-explanation-text">
-            Hold down shift, click, and drag in order to 
-            </span>
+        <!--<span class="edit-explanation-text">-->
+            <!--Hold down shift, click, and drag in order to-->
+            <!--</span>-->
 
-            <span class="edit-explanation-text">
-            unstrikethrough words.
-            </span>
+        <!--<span class="edit-explanation-text">-->
+            <!--unstrikethrough words.-->
+            <!--</span>-->
 
-        </div>
+      <!--</div>-->
 
-        <!-- This button allows users to save the strikethroughs made since thier last save. -->
-        <button class="save-button"> SAVE </button>
 
-        <!-- This button allows users to toggle between two views.
-        The first view shows all of the cut words as greyed out with a line through them.
-        The second view removes the cut words altogether. -->
-        <button class="toggle-button" id="toggle-text"> HIDE CUTS </button>
-    </div>
+    <!--</div>-->
 
-    <div class = "script-second">
-    </div>
 
-    <!--
-    This is the code for the actual script part of the view.
-    -->
-    <div class="script-main" id = <%= @edit.id.to_s %>>
-        <!-- We loop through each act in order to create the script. -->
-        <% @acts.each do |act| %>
-            <% actId = "act" + (act.number).to_s%>
-            <a id=<%= actId %> >
-            <div class="actDiv" id="Diva"><div class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </div>
-            </a>
-             <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
-             <!-- We then loop through each scene in each act. -->
-             <% rscenes.each do |scene| %>
-               <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
-               <a id=<%= sceneId %> >
-               <div class="sceneDiv" id="Divs">
-                <br> <br>
-                <div class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </div>
-                </a>
-                <br>
-                <!-- We heavily utilize the join function and our database to display the words quickly and efficiently. -->
-                <!--credit to kombajn zbozowy for their "not in" implementation: 
-                https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
-                <% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
-                <% last_number = 0 %>
-                <% currentSpeaker = "" %>
-                <% wordLines.each do |wordline| %>
-                <!-- Lines that are stage directions are tagged as such and handled differently from regular lines. -->
-                <% if wordline.isStage %>
-                    <% if @relCuts.include? wordline.wordid %>
-                        <br/>
-                        <button class="cstage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                            <%= wordline.text %>
-                        </button>
-                        <br>
-                    <% else %>
-                        <br/>
-                        <button class="stage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                            <%= wordline.text %>
-                        </button>
-                        <br>
-                    <% end %>
-                <% else %>
-                    <% if wordline.lineNum != last_number %>
-                      <% last_number = wordline.lineNum %>
-                      <% if (currentSpeaker != wordline.speaker) %>
-                        <% currentSpeaker = wordline.speaker %>
-                        <br><br> <p class="speaker"> <%= wordline.speaker %> </p>
-                      <% end %>
-                      <br>
-                      <p class="lineNum"><%= wordline.lineNum %></p>
-                    <% end %>
-                    <% if @relCuts.include? wordline.wordid %>
-                      <button class ="cword" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                    <% else %>
-                      <button class ="word" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                    <% end %>
-                    <%= wordline.text %>
-                    </button>
-                  <% end %>
-                <% end %>
-            <% end %>
-            </div>
-        <% end %>
-        </div>
-        <br/>
-    </div>
+    <!--</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
 
@@ -541,6 +588,5 @@ However, they both utilize the same .scss file. -->
         }
     </script>
 
-    </div>
 
 </body></html>
