@@ -50,7 +50,7 @@ var out = {
         "meta" : {
             "playID" : getCookie("play_id"), //should not be hardcoded
             //"editID" : 1, //Xans gon take u Xans gonna betray u
-            "groupNum": getCookie("group_number"),
+            "groupNum": getCookie("group_num"),
             "cutOrUncut" : null //tells u if its cut or uncut
         },
         "payload" : payLoadG
@@ -253,7 +253,7 @@ function sendPayload() {
                 "playID" : getCookie("play_id"), //should not be hardcoded
                 //"editID" : 1, //Xans gon take u Xans gonna betray u
                 "cutOrUncut" : null, //tells u if its cut or uncut
-                "groupNum": getCookie("group_number")
+                "groupNum": getCookie("group_num")
             },
             "payload" : payLoadG
         };
@@ -267,6 +267,8 @@ function sendPayload() {
  * calling back home to get update
  */
 function iuUpdate(heartBeatOrUpdate) {
+    console.log("play ID");
+    console.log(getCookie("play_id"));
    // console.log($(".sceneName")[0].id.slice(9));
     $.ajax({
         method: "POST",
@@ -275,7 +277,9 @@ function iuUpdate(heartBeatOrUpdate) {
             "meta": {
                 //"editID" : $(".playEditId")[0].id,
                 "sceneID" : $(".sceneName")[0].id.slice(9),
-                "groupNum": getCookie("group_number")
+                "groupNum": getCookie("group_num"),
+                "playID" : getCookie("play_id"), //should not be hardcoded
+
             }
         }
     }).done(function(data){
@@ -322,7 +326,7 @@ function renderHelper(uiUpdatesResponse) {
  */
 function bindGroupToggle() {
     $(".groupToggle").click(function(){
-        document.cookie = "group_number" + "=" + this.id.slice(5)+ ";path=/";
+        document.cookie = "group_num" + "=" + this.id.slice(5)+ ";path=/";
         iuUpdate(false);//lol just saw this name, this will call update once so new edits are
         //reflected on page
     });

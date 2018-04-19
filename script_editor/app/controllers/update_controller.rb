@@ -6,7 +6,12 @@ class UpdateController < ApplicationController
 	end
 
 	def show
-		edit_id = params[:meta][:editID]
+		group_number = params[:meta][:groupNum]
+		group_number = group_number.to_i
+		#group_id = Group.find_by_sql ["select * from Groups where user_id = ? and groupNum = ?",current_user.id,group_number]
+    #group_id = Group.where({user_id: current_user.id , groupNum: group_number})[0].id
+		puts " play ID: #{params[:meta][:playID].to_i} GroupID: #{group_number} query result: #{Edit.where({user_id: current_user.id , play_id: params[:meta][:playID].to_i, groups_id:group_number})}"
+		edit_id= Edit.where({user_id: current_user.id , play_id: params[:meta][:playID].to_i, groups_id:group_number})[0].id
 		cuts = Cut.find_by_sql(["Select word_id from Cuts where edit_id = ? and created_at > ?",edit_id, Time.now-5.minutes]).map{|x| x.word_id}
 		uncuts = Uncut.find_by_sql(["Select word_id from Uncuts where edit_id = ? and created_at > ?",edit_id, Time.now-5.minutes]).map{|x| x.word_id}
 		# puts "#{cuts}"
@@ -15,7 +20,8 @@ class UpdateController < ApplicationController
 		respond_to do |format|
     		cuts = 	{
 			        "meta" => {
-			            "editID" => params[:meta][:editID] #Xans gon take u Xans gonna betray u
+			            "playID" => params[:meta][:playID], #Xans gon take u Xans gonna betray u
+									"groupNum" => params[:meta][:groupNum]
 			        },
 			        "payload" => { "cut" => cuts,
 								  "uncut" => uncuts}

@@ -61,13 +61,92 @@ class Line < ApplicationRecord
   # many_lines = list of 'a_line' -> [T|F , Lines]
   # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
 
-  def renderActScene(play_id,scene)
+  # def renderActScene(play_id,scene)
+  #
+  #   # list of [speaker, many lines]
+  #   all_pairs = []
+  #
+  #   # lines = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number", scene]
+  #
+  #   lines = lineByPlayScene(play_id,scene)
+  #
+  #   index = 0
+  #
+  #   lines.each do |l|
+  #     # speaker, many lines
+  #     a_pair = []
+  #     many_lines = []
+  #
+  #
+  #     # # add a boolean to indicate
+  #     # # whether a line is cut
+  #     if l.currLength != 0
+  #       flag = false
+  #     else
+  #       flag = true
+  #     end
+  #
+  #     spk = l.speaker
+  #     # elements are [T|F, wordID, text]
+  #     a_line = []
+  #
+  #
+  #     words = Word.where(:line_id => l.id)
+  #
+  #     words.each do |wd|
+  #       # the word is not in the Cuts table
+  #       if Cut.where(:word_id => wd.id).length == 0
+  #         a_line.append([false, wd.id, wd.text])
+  #       else
+  #         a_line.append([true, wd.id, wd.text])
+  #       end
+  #     end
+  #
+  #     # do not add empty lines to the nested-list structure
+  #     if a_line.size == 0
+  #       next
+  #     end
+  #
+  #     if index != 0
+  #       prev_pair = all_pairs[all_pairs.length - 1]
+  #
+  #       prev_speaker = prev_pair[0]
+  #
+  #       if prev_speaker == spk
+  #         # add to "many_lines" for the previous speaker
+  #         prev_pair[1].append([flag, a_line])
+  #
+  #       else
+  #         many_lines.append([flag, a_line])
+  #         # make "a_pair"
+  #         a_pair.append(spk)
+  #         a_pair.append(many_lines)
+  #         # add to "all_pairs"
+  #         all_pairs.append(a_pair)
+  #       end
+  #
+  #     else
+  #       # make from sratch
+  #       many_lines.append([flag, a_line])
+  #       a_pair.append(spk)
+  #       a_pair.append(many_lines)
+  #       all_pairs.append(a_pair)
+  #     end
+  #
+  #     # increment index at end of each "line-iteration"
+  #     index += 1
+  #   end
+  #   return all_pairs
+  # end
+
+  def renderActScene(play_id,scene,group_number)
 
     # list of [speaker, many lines]
     all_pairs = []
 
     # lines = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number", scene]
 
+    # get all the lines for a particular group
     lines = lineByPlayScene(play_id,scene)
 
     index = 0
@@ -95,7 +174,8 @@ class Line < ApplicationRecord
 
       words.each do |wd|
         # the word is not in the Cuts table
-        if Cut.where(:word_id => wd.id).length == 0
+        # change made to check for GroupNumber in the Cuts table
+        if Cut.where(:word_id => wd.id, :groupNum => group_number).length == 0
           a_line.append([false, wd.id, wd.text])
         else
           a_line.append([true, wd.id, wd.text])
@@ -138,6 +218,11 @@ class Line < ApplicationRecord
     end
     return all_pairs
   end
+
+
+
+
+
 
   # a wrapper function to get all Act, Scene pairs in the play
   # output: HashMap, key: [act_id, scene_id] is a unique pairing, value: [many_lines]
