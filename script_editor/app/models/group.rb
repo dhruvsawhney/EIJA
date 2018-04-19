@@ -88,7 +88,6 @@ class Group < ApplicationRecord
     Group.where(groupNum: gNum).where(userId: uId).delete_all
   end
 
-<<<<<<< HEAD
   def getGroupEdits(gNum)
     group = Group.where(groupNum: gNum)
     edits = Group.find_by_sql("select edit_id from Groups where groupNum = gNum")
@@ -101,14 +100,10 @@ class Group < ApplicationRecord
     return result
   end
 
-
-
-=======
   # Hash: Key: groupName, val: [PlayName, playID, GroupNumber]
 
   def groupsInfo
     
   end
 
->>>>>>> develop-dhruv2
 end
