@@ -100,10 +100,13 @@ class Group < ApplicationRecord
     return result
   end
 
+<<<<<<< HEAD
   # Hash: Key: groupName, val: [PlayName, playID, GroupNumber]
 
   def groupsInfo
     
   end
 
+=======
+>>>>>>> 3ede7ae24aba943037492736b6468a7ed2ac2a7a
 end
