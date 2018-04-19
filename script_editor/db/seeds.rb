@@ -90,14 +90,18 @@ files.each do |file|
     puts "act" + currAct.to_s
     currAct = currAct + 1
     currScene = 1
+    # all the scenes for an act
     scenes = Nokogiri::XML(act.to_s).css('//div2')
     scenes.each do |scene|
       newscene = newact.scenes.create(number: currScene)
       currScene = currScene + 1
+      # gets all the lines in the play
       lines = Nokogiri::XML(scene.to_s).css('//sp')
+      # added the double-slash on line 101 - removed it later
       stages = Nokogiri::XML(scene.to_s).css('stage').to_a
       stages.each do |stage|
         stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f
+        # numbering them consecutively
         newstage = newscene.lines.create(number: stageN, speaker: "STAGE", isStage: true)
         newstage.words.create(text: stage.inner_text, place: 0)
       end
@@ -111,7 +115,8 @@ files.each do |file|
           wordIDs = wordIDs.map { |w| w.gsub("#","")}
           allthewords = ""
           wordPlace = 0
-          newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text)
+          # appended currLength to each line
+          newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text, currLength: wordPlace)
           toTextAdd = ""
           toPlaceAdd = 0
           wordIDs.each do |id|
@@ -131,13 +136,26 @@ files.each do |file|
                   toTextAdd = toTextAdd + word.inner_text
                 end
               end
+              #spword break
             end
+            #ID break
           end
+          # this last conditional prints the last word everytime
           if (toTextAdd != "")
             newline.words.create(text: toTextAdd, place: wordPlace)
+            newline.update(currLength: wordPlace)
           end
         end
+        # the line below is the break for a lines
       end
+      # scene ends here
     end
+    # act ends here
   end
+  # file ends here
 end
+
+# DO NOT REMOVE THIS LINE
+# The admin is the first user when the DB is seeded
+User.create(email: "adada@g.hmc.edu", user_name: "Dadaboi", major: "Lit", grad_year: 2005, enrolled: false, admin: true, groups_id:  -1, password: "a1somvihar")
+

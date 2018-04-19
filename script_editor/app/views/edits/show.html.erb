@@ -8,9 +8,13 @@ of the plays is almost identical except for the parts pertaining to making edits
 This means that changes to non-editing parts of the view need to be made in both show files.
 However, they both utilize the same .scss file. -->
 
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body style = "background-color: #faebd7">
-    <p id="notice"></p>
+<html>
+
+<body>
 
 
     <!--
@@ -38,526 +42,225 @@ However, they both utilize the same .scss file. -->
     <!--
         The analytics will show up here as a popup.
     -->
-    <div id="analytics-modal" class="shown-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="analytics-modal">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class="hidden-analytics" id="hidden-analytics"></div>
 
-            <!-- Create a button for each act and scene in the play. -->
-            <% lastact = 0 %>
-            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
-            <div class="analytics-actRow">
-                <br>
-                <div class="analytics-column analytics-left"></div>
-                <div class="analytics-column analytics-middle">
-                    Original Word Count
-                </div>
-                <div class="analytics-column analytics-right">
-                    New Word Count
-                </div>
-                <br>
+            <ul class="nav nav-tabs noMargin" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Line Analytics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Generate Cue Script</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" style="">Character Relation Analytics</a>
+              </li>
+              <li class="nav-item my-2 my-lg-0">
+                <button type="button" class="close noMargin" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </li>
+            </ul>
+          <div class="modal-body" id="analyticsBody">
+              <!--gets dynamically inserted in edits.js-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+      <span id=<%=@edit.id %> class="playEditId"></span>
+      <div class="row" id="collapseExample">
+        <div class="col-sm-3 bd-sidebar sidebar fixed-top " id="sidebar">
+          <div class="accordion">
+            <h6 class=" accordion-h6" id="play-analytics">Analytics</h6>
+          </div>
+          <% @play = Edit.find(params[:id]).play%>
+          <% @acts = @play.acts %>
+          <% @acts.each do |act| %>
+          <div class="accordion">
+              <h6 class="accordion-toggle accordion-h6">Act <%= act.number %></h6>
+                <div class="accordion-content">
+                  <% act.scenes.each do |scene| %>
+                  <p class="sceneMenu" id="scene<%= scene.number %>">
+                      Scene <%= scene.number %>
+                    <%end%>
+                  </p>
+              <!-- <p class="sceneMenu" id="scene2">
+                Scene 2
+              </p> -->
             </div>
-            <% actScenes.each do |actScene| %>
-              <% if lastact != actScene.act_number %>
-                <% lastact = actScene.act_number %>
-                <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
-                <% cutActWords = Word.joins(:line => :scene).joins(:cuts).where(scenes: {:act_id => actScene.act_id}).where(cuts: {:edit_id => @edit.id}).count %>
-                <div class="analytics-actRow">
-                    <div class="analytics-column analytics-left">
-                        <%= "ACT " + actScene.act_number.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-middle">
-                        <%= actWords.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-right">
-                        <%= (actWords-cutActWords).to_s %>
-                    </div>
-                    <br>
-                </div>
+          </div>
+        <%end%>
+        </div>
+        <div class="col-sm-3">
+          <!--this is a hack to fix spacing on page -->
+
+
+        </div>
+        <div class="col-sm-6" id="PlaySection">
+        <!--this area displays the script itself-->
+        <h4 style="margin-left: 10px" id="actName"> Act 1 :</h4>
+        <h6 style="margin-left: 10px" id="sceneName"> Scene 1</h6>
+
+            <% lineNum = 1 %>
+            <% @scene.each do |lineGroup| %>
+              <% puts "#{lineGroup}" %>
+              <% if lineGroup[0]=="STAGE" %>
+                <table class="script-Table">
+                  <% lineGroup[1].each do |line| %>
+                    <!--each line in a characters speaking part-->
+                    <tr>
+                      <td>
+                        <em>
+                          <%= line[1][0][2].to_s() %>
+                        </em>
+                      </td>
               <% end %>
-              <% sceneWords = Word.joins(:line).where(lines: {:scene_id => actScene.scene_id}).count %>
-              <% cutSceneWords = Word.joins(:line).joins(:cuts).where(lines: {:scene_id => actScene.scene_id}).where(cuts: {:edit_id => @edit.id}).count %>
-              <div class="analytics-sceneRow">
-                <div class="analytics-column analytics-left">
-                        <%= "SCENE " + actScene.scene_number.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-middle">
-                        <%= sceneWords.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-right">
-                        <%= (sceneWords-cutSceneWords).to_s %>
-                    </div>
-                    <br>
+                </tr>
+              </table>
+              <% else %>
+              <!--this loops through each characters speaking part in the scene-->
+              <table class="script-Table">
+                <col span="1" class="lineNumer">
+                <tr>
+                  <td><strong> <%= lineGroup[0] %></strong> </td>
+                </tr>
+                <% lineGroup[1].each do |line| %>
+
+                  <!--each line in a characters speaking part-->
+                  <tr class="lineRow">
+                    <td class ="lineNumer"><%= lineNum.to_s() %></td>
+                    <td class="lineText">
+                      <!--render line -->
+                      <% line[1].each do |word|%>
+                        <% if word[0] %>
+                        <span  class="word del" id=<%= word[1].to_s() %>>
+                          <!--detect if word has been removed from play-->
+                            <%= word[2].to_s() %>
+                        </span>
+
+                        <% else %>
+                       <span  class="word" id=<%= word[1].to_s() %>>
+                          <!--detect if word has been removed from play-->
+                         <%= word[2].to_s() %>
+                        </span>
+                        <% end %>
+                      <% end %>
+                    </td>
+                  </tr>
+                  <% lineNum += 1%>
+                <% end %>
+              </table>
+
+            <% end %>
+          <% end %>
+
+
+        </div>
+
+        <div class="col-sm-3">
+          <!--additional space if we want to put anything on the left -->
+
+          </head>
+          <body>
+
+          <div class="dropdown">
+            <button onclick="groupDropdown()" class="dropbtn">
+              <%= current_user.user_name %>'s Groups</button>
+              <div id="myDropdown" class="dropdown-content">
+                <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
+                <% groups.uniq.each do |group| %>
+                  <% if group[1] == -1 %>
+                    <a class="groupToggle" id="group-1">User Edit</a>
+                  <% else %>
+                    <a class="groupToggle" id=<%="group" + String(group[1])%> >Group <%= group[0]%></a>
+                  <% end %>
+                <% end %>
               </div>
+            </div>
 
-            <% end %>
+          <script>
+          /* When the user clicks on the button,
+          toggle between hiding and showing the dropdown content */
+          function groupDropdown() {
+              document.getElementById("myDropdown").classList.toggle("show");
+          }
 
-            <% analyticstext = "" %>
-            <script>
-                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
-            </script>
-        </div>
-    </div>
+          // Close the dropdown if the user clicks outside of it
+          window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
 
-    <!-- 
-    This is the code for the navigation bar on the left side of the view. 
-    -->
-    <div class="script-side-bar">
-        <div class="play-navigation">
+              var dropdowns = document.getElementsByClassName("dropdown-content");
+              var i;
+              for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                  openDropdown.classList.remove('show');
+                }
+              }
+            }
+          }
 
-            <!-- This button shows the play's synopsis. -->
-            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
 
-            <!-- This button shows the play's analytics. -->
-            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
+          </script>
 
-            <!-- Create a button for each act and scene in the play.
-            The ability to navigate through the play is handled via href tags. -->
-            <% lastact = 0 %>
-            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
-            <% actScenes.each do |actScene| %>
-              <% if lastact != actScene.act_number %>
-                <% lastact = actScene.act_number %>
-                <% actLink = "/edits/" + @edit.id.to_s + "/#act" + actScene.act_number.to_s %>
-                <a style = color:black href=<%=actLink%> >
-                <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
-                </a>
-                <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
-                </script>
-              <% end %>
-              <% sceneLink = "/edits/" + @edit.id.to_s + "/#act" + actScene.act_number.to_s + "scene" + actScene.scene_number.to_s %>
-              <a style = color:black href=<%=sceneLink%> >
-              <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
-              </a>
-              <script>
-                  document.getElementById('current-scene').id = '<%= escape_javascript "ns" + actScene.scene_number.to_s %>';
-              </script>
 
-            <% end %>
-
+          <!--<TABLE BORDER="0">-->
+            <!--<TR>-->
+              <!--<TD class = "select"> <%=current_user.user_name %>'s Groups-->
+                <!--<select onChange="window.location.href=this.value">-->
+                  <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
+                  <!--<% groups.uniq.each do |group| %>-->
+                    <!--<% if group[1] == -1 %>-->
+                      <!--<option value = "/edits/new/<%=current_user.id%>"> User Edit </option>-->
+                    <!--<% else %>-->
+                      <!--<option value="/edits/show/<%=group[0]%>"> Group <%= group[0]%> </option>-->
+                    <!--<% end %>-->
+                  <!--<% end %>-->
+                <!--</select>-->
+              <!--<TD ALIGN="center"></TD>-->
+              <!--</TD>-->
+            <!--</TR>-->
+          <!--</TABLE>-->
 
         </div>
-    </div>
 
-    <!-- 
+        </div>
+
+
+
+
+    <!--
     This is the code for the bar on the right side of the screen that explains
     how to strikethrough text and contains the buttons for saving and toggling
     between views.
     -->
-    <div class="script-editor">
-        <div class="edit-explanation">
+    <!--<div class="script-editor col-md-2">-->
+      <!--<div class="edit-explanation">-->
 
-            <span class="edit-explanation-text">
-            Click and drag in order to strikethrough words.
-            </span>
+            <!--<span class="edit-explanation-text">-->
+            <!--Click and drag in order to strikethrough words.-->
+            <!--</span>-->
 
-            <span class="edit-explanation-text">
-            Hold down shift, click, and drag in order to 
-            </span>
+        <!--<span class="edit-explanation-text">-->
+            <!--Hold down shift, click, and drag in order to-->
+            <!--</span>-->
 
-            <span class="edit-explanation-text">
-            unstrikethrough words.
-            </span>
+        <!--<span class="edit-explanation-text">-->
+            <!--unstrikethrough words.-->
+            <!--</span>-->
 
-        </div>
-
-        <!-- This button allows users to save the strikethroughs made since thier last save. -->
-        <button class="save-button"> SAVE </button>
-
-        <!-- This button allows users to toggle between two views.
-        The first view shows all of the cut words as greyed out with a line through them.
-        The second view removes the cut words altogether. -->
-        <button class="toggle-button" id="toggle-text"> HIDE CUTS </button>
-    </div>
-
-    <div class = "script-second">
-    </div>
-
-    <!--
-    This is the code for the actual script part of the view.
-    -->
-    <div class="script-main" id = <%= @edit.id.to_s %>>
-        <!-- We loop through each act in order to create the script. -->
-        <% @acts.each do |act| %>
-            <% actId = "act" + (act.number).to_s%>
-            <a id=<%= actId %> >
-            <div class="actDiv" id="Diva"><div class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </div>
-            </a>
-             <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
-             <!-- We then loop through each scene in each act. -->
-             <% rscenes.each do |scene| %>
-               <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
-               <a id=<%= sceneId %> >
-               <div class="sceneDiv" id="Divs">
-                <br> <br>
-                <div class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </div>
-                </a>
-                <br>
-                <!-- We heavily utilize the join function and our database to display the words quickly and efficiently. -->
-                <!--credit to kombajn zbozowy for their "not in" implementation: 
-                https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
-                <% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
-                <% last_number = 0 %>
-                <% currentSpeaker = "" %>
-                <% wordLines.each do |wordline| %>
-                <!-- Lines that are stage directions are tagged as such and handled differently from regular lines. -->
-                <% if wordline.isStage %>
-                    <% if @relCuts.include? wordline.wordid %>
-                        <br/>
-                        <button class="cstage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                            <%= wordline.text %>
-                        </button>
-                        <br>
-                    <% else %>
-                        <br/>
-                        <button class="stage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                            <%= wordline.text %>
-                        </button>
-                        <br>
-                    <% end %>
-                <% else %>
-                    <% if wordline.lineNum != last_number %>
-                      <% last_number = wordline.lineNum %>
-                      <% if (currentSpeaker != wordline.speaker) %>
-                        <% currentSpeaker = wordline.speaker %>
-                        <br><br> <p class="speaker"> <%= wordline.speaker %> </p>
-                      <% end %>
-                      <br>
-                      <p class="lineNum"><%= wordline.lineNum %></p>
-                    <% end %>
-                    <% if @relCuts.include? wordline.wordid %>
-                      <button class ="cword" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                    <% else %>
-                      <button class ="word" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                    <% end %>
-                    <%= wordline.text %>
-                    </button>
-                  <% end %>
-                <% end %>
-            <% end %>
-            </div>
-        <% end %>
-        </div>
-        <br/>
-    </div>
-
-<script>
-    //Create events for the various functions associated with strikethrough.
-
-    //If we click the mouse down, tell the program we're dragging the mouse.
-    document.querySelector(".script-main").addEventListener("mousedown", drag, false);
-
-    //If we move the mouse over an element, let it know. If the mouse is down, this will strikethrough the element.
-    //document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
-
-    //If the mouse is clicked down over an element, cut the element.
-    //document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
-
-    //If the mouse is lifted, tell the program that we're no long dragging the mouse.
-    document.querySelector(".script-main").addEventListener("mouseup", lift, false);
-
-    //Stop cutting or uncutting if the mouse leaves the document or window.
-    $(document).mouseleave(function()
-    {
-        lift();
-    });
-
-    document.querySelector(".toggle-button").addEventListener("click",toggleScript, false);
-
-    document.querySelector(".save-button").addEventListener("click", saveWrapper, false);
-    var mousedrag = false;
-    var origId = 0;
-    var cutlist = [];
-    var uncutlist = [];
-    var checkId = "";
-    var compressed = false;
+      <!--</div>-->
 
 
-    $(window).on("beforeunload", function() {
-        if(cutlist.length != 0 || uncutlist != 0)
-        {
-            return "Are you sure you want to leave? You have unsaved work which will be lost.";
-        }
-    });
-
-    //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
-    //If a server call fails, try again.
-    $( document ).ajaxError( function( event, jqxhr, settings, thrownError) {
-        $.ajax(settings);
-    });
-
-    //Save that the mouse is down.
-    function drag(e)
-    {
-        mousedrag = true;
-        origId = parseInt(e.target.id);
-    }
-
-    //Save that the mouse is up.
-    function lift(e)
-    {
-        doCut(e);
-        mousedrag = false;
-    }
-
-    //A filter which removes the word given.
-    function remove(word)
-    {
-        return word != checkId;
-    }
-
-    //Manage the data necessary to cut or uncut a word.
-    function dataCut(clickedItem,cut)
-    {
-        var idNum = parseInt(clickedItem.id);
-        checkId = idNum;
-        if(cut)
-        {
-            cutlist = cutlist.filter(remove);
-            cutlist.push(idNum);
-        }
-        else
-        {
-            uncutlist = uncutlist.filter(remove);
-            uncutlist.push(idNum);
-        }
-    }
+    <!--</div>-->
 
 
-    function saveWrapper()
-    {
-
-      if(cutlist.length > 0 || uncutlist.length > 0){
-        var modal3 = document.getElementById("save-modal");
-        modal3.style.display = "block";
-        saveCut();
-        }
-    }
+    <!--</div>-->
 
 
-    //If the save button is hit, send cached data to the database.
-    function saveCut()
-    {
-        var script = $(".script-main")[0];
-        var cEditId = parseInt(script.id);
 
-        if(cutlist.length == 0 && uncutlist.length == 0){
-          var modal3 = document.getElementById("save-modal");
-          modal3.style.display = "none";
-          window.alert("Saved!");
-          return;
-        }
-
-        if(cutlist.length != 0)
-        {
-            idNum = cutlist.pop();
-            var cutmessage = "Cut: " + idNum.toString();
-            console.log(cutmessage);
-            $.post("/cuts/new",
-            {
-                editI: cEditId,
-                wordI: idNum
-            },function()
-            {
-                saveCut();
-            });
-            return;
-        }
-        if(uncutlist.length != 0)
-        {
-            idNum = uncutlist.pop();
-            var cutmessage = "Uncut: " + idNum.toString();
-            console.log(cutmessage);
-            $.post("/cuts/delete",
-            {
-                editI: cEditId,
-                wordI: idNum
-            },function()
-            {
-                saveCut();
-            });
-            return;
-        }
-    }
-
-    //Changes visuals of a word.
-    function modifyStyle(clickedItem,color,style,cut)
-    {
-        clickedItem.style.color = color;
-        clickedItem.style.textDecoration = style;
-        clickedItem.dataset.cut = cut;
-    }
-
-    //Actually executes the XML cut on a word based on whether it was cut before or not.
-    function literalCut(clickedItem,cut)
-    {
-        var color;
-        var style;
-        var currId = parseInt(clickedItem.id);
-        console.log("ORIG ID: " + origId);
-        console.log("CURR ID: " + currId);
-        if(cut)
-        {
-              style = "line-through";
-              if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
-              {
-                  color = "#D3D3D3";
-              }
-              else
-              {
-                  color = "#888888";
-              }
-        }
-        else
-        {
-            style = "none";
-            if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
-            {
-                color = "#006BFF";
-            }
-            else
-            {
-                color = "#000000";
-            }
-        }
-        while(origId <= currId){
-          currObj = document.getElementById(origId.toString());
-          modifyStyle(currObj,color,style,cut);
-          dataCut(currObj,cut);
-          console.log("cutting word with id " + origId);
-          origId++;
-        }
-    }
-
-    // all words will need to be printed within the div class "script-main"
-    function doCut(e) {
-        var clickedItem = e.target;
-        // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
-        if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "stage" || clickedItem.getAttribute("class") == "cstage")
-        {
-            if (mousedrag && !e.shiftKey) {
-                literalCut(clickedItem,true);
-            }
-            else if(e.shiftKey && mousedrag) {
-                literalCut(clickedItem,false);
-            }
-        }
-    }
-
-    function toggleScript(e)
-    {
-        if(compressed)
-        {
-            $(".script-second").hide();
-            document.getElementById("toggle-text").textContent="HIDE CUTS";
-            $(".script-main").show();
-        }
-        else
-        {
-            //Got hide syntax from https://stackoverflow.com/questions/9456289/how-to-make-a-div-visible-and-invisible-with-javascript
-            document.getElementById("toggle-text").textContent="SHOW CUTS";
-            var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length)).concat(" .script-second");
-            $(".script-second").load(location, function()
-                {
-                    $(".script-main").hide();
-                    $(".script-second").show();
-                });
-        }
-        compressed = !compressed;
-    }
-</script>
-
-    <script>
-        /**
-         * This controls scene buttons in the navigation bar
-         */
-        var sceneButtons = document.getElementsByClassName("nav-scene");
-        var sceneLength = sceneButtons.length;
-        for (var i = 0; i < sceneLength; i++) {
-            sceneButton = sceneButtons[i];
-            sceneButton.addEventListener("click", showScene, false);
-        }
-        function showScene(scene) {
-            var allScenes = document.getElementsByClassName("scenehead");
-            for (var i = 0; i < allScenes.length; i++) {
-                if (("n" + allScenes[i].id) == scene.target.id) {
-                    allScenes[i].style.backgroundColor = "yellow";
-                    window.location.hash = allScenes[i].id;
-                }
-                else {
-                    allScenes[i].style.backgroundColor = "transparent";
-                }
-            }
-            var allActs = document.getElementsByClassName("acthead");
-            for (var i = 0; i < allActs.length; i++) {
-                allActs[i].style.backgroundColor = "transparent";
-            }
-        }
-        /**
-         * This controls act buttons in the navigation bar
-         */
-        var actButtons = document.getElementsByClassName("nav-act");
-        var actLength = actButtons.length;
-        for (var i = 0; i < actLength; i++) {
-            actButton = actButtons[i];
-            actButton.addEventListener("click", showAct, false);
-        }
-        function showAct(act) {
-            var allActs = document.getElementsByClassName("acthead");
-            for (var i = 0; i < allActs.length; i++) {
-                if (("n" + allActs[i].id) == act.target.id) {
-                    allActs[i].style.backgroundColor = "yellow";
-                    window.location.hash = allActs[i].id;
-                }
-                else {
-                    allActs[i].style.backgroundColor = "transparent";
-                }
-            }
-            var allScenes = document.getElementsByClassName("scenehead");
-            for (var i = 0; i < allScenes.length; i++) {
-                allScenes[i].style.backgroundColor = "transparent";
-            }
-        }
-        /**
-         * This controls the synopsis button in the navigation bar.
-         */
-        var modal = document.getElementById("synopsis-modal");
-        var btn = document.getElementById("synopsis-button");
-        var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        /**
-         * This controls the analytics button in the navigation bar.
-         */
-        var modal2 = document.getElementById("analytics-modal");
-        var btn2 = document.getElementById("analytics-button");
-        var span2 = document.getElementsByClassName("close2")[0];
-        btn2.onclick = function() {
-            modal2.style.display = "block";
-        }
-        span2.onclick = function() {
-            modal2.style.display = "none";
-        }
-
-        /**
-         * This closes the modals if the user clicks outside of either
-         * the synopsis or analytics modal.
-         */
-        window.onclick = function(event) {
-            if (event.target == modal2) {
-                modal2.style.display = "none";
-            }
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-
-    </div>
 
 </body></html>

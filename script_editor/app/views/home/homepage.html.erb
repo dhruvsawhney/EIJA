@@ -7,19 +7,75 @@ It can be found at app/views/home/homepage.html.erb -->
 <html>
 	<head>
 		<title>HMC Script Editor</title>
-		<link rel="stylesheet" type"text/css" style = "color: #FDEDD9" href="home.scss"/>		
+		<link rel="stylesheet" type=text/css" style = "color: #FDEDD9" href="home.scss"/>
 	</head>
 
 	<!-- Here is where we set the tan color that is the background color for the page.
 	It needs to be set here to work. It does not work when set in the .scss file. -->
-	<body style = "background-color: #faebd7">
-		<div id="heading">
-			<!-- The picture of Shakespeare and the words "Shakespeare Script Editor"
-			are part of this image. -->
-			<img id="titleimg" src="/Title.png" >
-		</div>
+	<body >
+  <div class="img-wrapper">
+    <%= image_tag("candle.jpg", class: "img-fluid", alt: "Responsive image") %>
+    <div class="img-overlay">
+      <div class="container">
+        <div class="row">
+          <div class="slide-text slide_style_left">
+            <h1 data-animation="animated zoomInRight">Shakespeare Script Editor</h1>
+            <p data-animation="animated fadeInLeft">A Collaborative Thespian Experience </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 alt-grid project wow animated animated4 fadeInLeft flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="project-hover">
+          <h2>Comedies</h2>
+
+          <hr />
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar ex pulvinar est laoreet ullamcorper.</p>
+          <a href="#">See Plays</a>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4  alt-grid project project-3 wow animated animated2 fadeInLeft">
+        <div class="project-hover">
+          <h2>Histories</h2>
+          <hr />
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar ex pulvinar est laoreet ullamcorper.</p>
+          <a href="#">See Plays</a>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 alt-grid project project-4 wow animated fadeInLeft">
+        <div class="project-hover">
+          <h2>Tragedies</h2>
+          <hr />
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar ex pulvinar est laoreet ullamcorper.</p>
+          <a href="#">See Plays</a>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+
+  <!--<div class="container">-->
+    <!--<div class="row">-->
+      <!--<div class="col-md-4"><%= image_tag("comedymask.jpeg", class: "img-fluid", alt: "Responsive image") %></div>-->
+      <!--<div class="col-md-4"><%= image_tag("Historical.png", class: "img-fluid", alt: "Responsive image") %></div>-->
+      <!--<div class="col-md-4"><%= image_tag("tragity.jpg", class: "img-fluid", alt: "Responsive image") %></div>-->
+    <!--</div>-->
+  <!--</div>-->
 
 		<br />
+
+
+	<ul id="plays-comedy-nav-bar">
+		<h2>Comedies</h2>
+		<hr style = "background-color: #faebd7"></hr>
+		<% @plays = Play.where(:category => 1) %>
+		<% @plays.each do |play| %>
+			<li class = "play-title">
+				<%= link_to play.title, edit_path(id: play.id)%>
+			</li><br>
+		<% end %>
+	</ul>
 
 		<ul id="plays-history-nav-bar">
 			<h2>Histories</h2>
@@ -27,21 +83,13 @@ It can be found at app/views/home/homepage.html.erb -->
 			<% @plays = Play.where(:category => 0) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, play_path(play), :style=> 'color: #FDEDD9'%>
+					<%= link_to play.title, edit_path(id: play.id )%>
+					<%= current_user.id%>
 				</li><br>
 			<% end %>
 		</ul>
 
-		<ul id="plays-comedy-nav-bar">
-		    <h2>Comedies</h2>
-			<hr style = "background-color: #faebd7"></hr>
-			<% @plays = Play.where(:category => 1) %>
-			<% @plays.each do |play| %>
-				<li class = "play-title">
-					<%= link_to play.title, play_path(play), :style=> 'color: #FDEDD9'%>
-				</li><br>
-			<% end %>
-			</ul>
+
 
 		<ul id="plays-tragedy-nav-bar">
 		    <h2>Tragedies</h2>
@@ -49,7 +97,7 @@ It can be found at app/views/home/homepage.html.erb -->
 			<% @plays = Play.where(:category => 2) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, play_path(play), :style=> 'color: #FDEDD9'%>
+					<%= link_to play.title, edit_path(id: play.id)%>
 				</li><br>
 			<% end %>
 			</ul>

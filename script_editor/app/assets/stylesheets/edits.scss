@@ -1,0 +1,150 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+#A, #B {
+  position: absolute;
+}
+#A {
+  top: 0px;
+  width: 200px;
+  bottom: 0px;
+  background:orange;
+}
+#B {
+  top: 0px;
+  left: 200px;
+  right: 0;}
+
+@media (min-width: 768px){
+  .bd-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    z-index: 1000;
+    height: calc(100vh - 4rem);
+  }
+}
+
+.sidebar, .fixed-top.sidebar {
+  top: 55px;
+  right: 0;
+  left: 0;
+  background-color: whitesmoke;
+}
+
+.accordion-h6{
+  right: -2px;
+  border-bottom: 1px solid #cccccc;
+  margin: 0;
+  padding: 5px 0;
+  position: relative;
+}
+
+.accordion-toggle {
+  cursor: pointer;
+}
+.accordion-toggle.active:after{
+  content:"";
+  position:absolute;
+  right:10px;
+  top:17px;
+  width:0;
+  height:0;
+  border-bottom:5px solid #000000;
+  border-left:5px solid rgba(0,0,0,0);
+  border-right:5px solid rgba(0,0,0,0);}
+.accordion-toggle:before{
+  content:"";
+  position:absolute;
+  right:10px;
+  top:17px;
+  width:0;
+  height:0;
+  border-top:5px solid #000;
+  border-left:5px solid rgba(0,0,0,0);
+  border-right:5px solid rgba(0,0,0,0);}
+.accordion-toggle.active:before{display:none;}
+.accordion-content {display: none;}
+.accordion-toggle.active {color: #000000;}
+
+
+
+
+.script-Table {
+  table-layout: fixed;
+  margin-left:30px ;
+  margin-bottom: 15px;
+  width: 400px;//mabey change to 100%
+
+}
+
+.characterName{
+  border-bottom: -15px;
+}
+
+.lineNumer {
+  overflow: hidden;
+  width: 40px;
+}
+
+.lineText {
+  overflow: hidden;
+  width: 360px;
+}
+
+.noMargin{
+
+  margin: 0;
+}
+
+.word{
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+.del{
+  text-decoration: line-through;
+}
+
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    position: fixed
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+}
+
+.dropdown {
+    position: sticky;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #ddd}
+
+.show {display:block;}

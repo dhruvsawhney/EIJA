@@ -3,7 +3,7 @@ It can be found at app/views/users/show.html.erb -->
 
 <!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss -->
 
-<html><body style = "background-color: #faebd7; padding-top: 0px;">
+<html><body style = "background-color: white; padding-top: 0px;">
 
 <!-- This will display the name of the current user. -->
 <h1><%= @user.user_name%>'s Profile</h1>
@@ -11,13 +11,16 @@ It can be found at app/views/users/show.html.erb -->
 <br> <br>
 <p>
   <div class = "profile-display">
+<% if current_user.try(:admin?) %>
+ <a href="/admin/<%=current_user.id%>" class="button">Admin Page</a>
+<%end%>
 <table style="width:30%">
  <tr class = "user_field">
    <td><strong>Name:</strong></td>
    <td><%= @user.user_name%></td>
  </tr>
  <tr class = "user_field">
-   <td><strong>Email:</strong></td> 
+   <td><strong>Email:</strong></td>
    <td><%= @user.email %></td>
  </tr>
  <tr class = "user_field">
@@ -27,6 +30,15 @@ It can be found at app/views/users/show.html.erb -->
  <tr class = "user_field">
    <td><strong>Class of:</strong></td>
    <td><%= @user.grad_year %></td>
+ </tr>
+ <tr class = "user_field">
+   <td><strong>Groups</strong></td>
+   <td>
+      <% groups = @user.getUserGroups(current_user.id)%>
+      <% groups.each do |group| %>
+          <%= group[0] + "," %>
+      <% end %>
+   </td>
  </tr>
 </table>
 <br>

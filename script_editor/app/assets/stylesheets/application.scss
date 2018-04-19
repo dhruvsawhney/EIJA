@@ -12,37 +12,36 @@
  *
  *= require_tree .
  *= require_self
- */
+  */
 
-@import "bootstrap-sprockets";
-@import "bootstrap";
+@import 'bootstrap';
 
 // This variable controls the background color of the navigation bar.
-$navbar-color: #3f3f5f;
-
-.navbar-custom {
-    background-color: $navbar-color;
-}
-
-.nav.navbar-nav.navbar-right li a {
-    color: #faebd7; 
-}
-
-.navbar-header a {
-    color: #faebd7;
-}
-
-.navbar > .container .navbar-brand {
-    color: #faebd7;
-}
-
-.navbar-inverse .navbar-toggle {
-    color: #faebd7;
-}
-
-h2 {
-    text-transform: uppercase;
-    font-family: serif;
-    font: Georgia;
-    color: #faebd7;
-}
+//$navbar-color: #3f3f5f;
+//
+//.navbar-custom {
+//    background-color: $navbar-color;
+//}
+//
+//.nav.navbar-nav.navbar-right li a {
+//    color: #faebd7;
+//}
+//
+//.navbar-header a {
+//    color: #faebd7;
+//}
+//
+//.navbar > .container .navbar-brand {
+//    color: #faebd7;
+//}
+//
+//.navbar-inverse .navbar-toggle {
+//    color: #faebd7;
+//}
+//
+//h2 {
+//    text-transform: uppercase;
+//    font-family: serif;
+//    font: Georgia;
+//    color: #faebd7;
+//}

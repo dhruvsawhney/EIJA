@@ -1,0 +1,17 @@
+<%= form_for(cue_script) do |f| %>
+  <% if cue_script.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cue_script.errors.count, "error") %> prohibited this cue_script from being saved:</h2>
+
+      <ul>
+      <% cue_script.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

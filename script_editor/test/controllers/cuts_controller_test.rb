@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CutsControllerTest < ActionDispatch::IntegrationTest
   test "should get edit" do
-    get cuts_edit_url
+    get cut_delete
     assert_response :success
   end
 

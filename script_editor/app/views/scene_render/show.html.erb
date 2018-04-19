@@ -1,0 +1,53 @@
+<h4 style="margin-left: 10px"> Act 1:</h4>
+<h6 style="margin-left: 10px"> Scene 1</h6>
+
+<%  lineNum = 1 %>
+<% @scene.each do |lineGroup| %>
+  <% puts "#{lineGroup}" %>
+  <% if lineGroup[0]=="STAGE" %>
+    <table class="script-Table">
+      <% lineGroup[1].each do |line| %>
+        <!--each line in a characters speaking part-->
+        <tr>
+          <td>
+            <em>
+              <%= line[1][0][2].to_s() %>
+            </em>
+          </td>
+      <% end %>
+      </tr>
+    </table>
+  <% else %>
+    <!--this loops through each characters speaking part in the scene-->
+    <table class="script-Table">
+      <col span="1" class="lineNumer">
+      <tr>
+        <td><strong> <%= lineGroup[0] %></strong> </td>
+      </tr>
+      <% lineGroup[1].each do |line| %>
+
+        <!--each line in a characters speaking part-->
+        <tr class="lineRow">
+          <td class ="lineNumer"><%= lineNum.to_s() %></td>
+          <td class="lineText">
+            <!--render line -->
+            <% line[1].each do |word|%>
+                        <span  class="word" id=<%= word[1].to_s() %>>
+                          <!--detect if word has been removed from play-->
+                          <% if word[0] %>
+                          <del>
+                            <%= word[2].to_s() %>
+                          </del>
+                          <% else %>
+                          <%= word[2].to_s() %>
+                       <% end %>
+                        </span>
+            <% end %>
+          </td>
+        </tr>
+        <% lineNum += 1%>
+      <% end %>
+    </table>
+
+  <% end %>
+<% end %>

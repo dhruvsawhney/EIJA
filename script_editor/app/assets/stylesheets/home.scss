@@ -1,100 +1,265 @@
-// Place all the styles related to the home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+//// Place all the styles related to the home controller here.
+//// They will automatically be included in application.css.
+//// You can use Sass (SCSS) here: http://sass-lang.com/
+//
+//// This variable controls the color of the category elements.
+//$category-color: #70708B;
+//
+  img.img-fluid{
+    min-height: 100%;
+    min-width: 1024px;
 
-// This variable controls the color of the category elements.
-$category-color: #70708B;
-
-body{
-	text-align: center;
-}
-
-li.play-title {
-	height: 30px;
-    text-align: center;
-    background-color: #70708B;
-    border-width: 1px;
-    border-color: #70708B;
     width: 100%;
-    transition: 0.3s;
+    height: auto;
     position: relative;
+    top: 0;
+    left: 0;
+  }
+
+.well img{
+  display: inline-block;
+}
+.row {
+  margin-left: -20px;
+  *zoom: 1;
+  //margin-top: 50px;
+}
+.img-wrapper {
+  position: relative;
 }
 
-h1 {
-	text-transform: uppercase;
-	font-family: serif;
+.img-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 80%;
+  left: 0;
+  right: 10%;
+  text-align: left ;
 }
 
-#heading {
-	height: 110px;
+.img-overlay:before {
+  content: ' ';
+  display: block;
+  /* adjust 'height' to position overlay content vertically */
+  height: 50%;
 }
 
-#titleimg {
-	height: 100%;
+.slide-text{
+  position: relative;
+  left: 15px;
 }
 
-h2 {
-	text-transform: uppercase;
-	font-family: serif;
-	font: Georgia;
-	color: #faebd7;
+.slide-text > p{
+  font-size: 15px;
+  color: white;
+}
+.slide-text > h1{
+  font-size: 30px;
+  color:white;
 }
 
-hr {
-    display: block;
-    height: 2px;
-    border: 0;
-    margin: 1em 0.75em;
-    padding: 0;
+.title-arch {
+  text-align: center;
+  margin: 50px 0;
+  font-size: 22px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.project {
+  width: 100%;
+  height: 500px;
+  background-image: image-url("comedymask.jpeg");
+  background-size: cover;
+  background-position: center;
+  padding: 0 !important;
+  float:left;
 }
 
-#plays-comedy-nav-bar, #plays-tragedy-nav-bar, #plays-history-nav-bar, li a:hover {
-	color: white;
+.project-2 {
+  background-image: image-url("comedymask.jpeg");
 }
 
-#plays-comedy-nav-bar {
-	display: inline-block;
-	width: 25%;
-	list-style: none;
-	margin: 5px;
-	padding: 10px;
-	background-color: $category-color;
-	text-transform: uppercase;
+.project-3 {
+  background-image: image-url("Historical.jpg");
 }
 
-#plays-history-nav-bar {
-	position: relative;
-	float: left;
-	width: 20%;
-	list-style: none;
-	margin: 5px;
-	padding: 10px;
-	background-color: $category-color;
-	text-transform: uppercase;
+.project-4 {
+  background-image: image-url("tragity.jpg");
 }
 
-#plays-tragedy-nav-bar {
-	position: relative;
-	float: right;
-	width: 20%;
-	list-style: none;
-	margin: 5px;
-	padding: 10px;
-	background-color: $category-color;
-	text-transform: uppercase;
+.project-hover {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background-color: rgba(238,233, 233, 0.7);
+  padding: 40% 30px !important;
 }
 
-#plays-history-nav-bar li a{
-	text-decoration: none;
-	float: center;
+.project-hover hr {
+  height: 30px;
+  width: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background-color: rgba(255, 255, 255, 1);
+  border: 0;
 }
 
-#plays-comedy-nav-bar li a{
-	text-decoration: none;
-	float: center;
+.project-hover a {
+  color: rgba(255, 255, 255, 1);
+  padding: 2px 22px;
+  line-height: 40px;
+  border: 2px solid rgba(255, 255, 255, 1);
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
-#plays-tragedy-nav-bar li a{
-	text-decoration: none;
-	float: center;
+.project-hover a:hover {
+  border-color: rgba(51, 51, 51, 1);
+  color: rgba(51, 51, 51, 1);
+  background-color: #FFF;
 }
+
+.project:hover .project-hover {
+  opacity: 1;
+}
+
+.project:hover .project-hover hr {
+  width: 100%;
+  height: 5px;
+}
+
+//.flip-container {
+//  perspective: 1000px;
+//}
+//
+//.flip-container.hover .flipper {
+//  transform: rotateY(180deg);
+//}
+//.flip-container,
+//.front,
+//.back {
+//  width: 320px;
+//  height: 480px;
+//}
+//.flipper {
+//  transition: 0.6s;
+//  transform-style: preserve-3d;
+//  position: relative;
+//}
+//.front,
+//.back {
+//  backface-visibility: hidden;
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//}
+//.front {
+//  z-index: 2;
+//  transform: rotateY(0deg);
+//}
+//.back {
+//  transform: rotateY(180deg);
+//}
+
+//body{
+//	text-align: center;
+//}
+//
+//li.play-title {
+//	height: 30px;
+//    text-align: center;
+//    background-color: #70708B;
+//    border-width: 1px;
+//    border-color: #70708B;
+//    width: 100%;
+//    transition: 0.3s;
+//    position: relative;
+//}
+//
+//h1 {
+//	text-transform: uppercase;
+//	font-family: serif;
+//}
+//
+//#heading {
+//	height: 110px;
+//}
+//
+//#titleimg {
+//	height: 100%;
+//}
+//
+//h2 {
+//	text-transform: uppercase;
+//	font-family: serif;
+//	font: Georgia;
+//	color: #faebd7;
+//}
+//
+//hr {
+//    display: block;
+//    height: 2px;
+//    border: 0;
+//    margin: 1em 0.75em;
+//    padding: 0;
+//}
+//
+//#plays-comedy-nav-bar, #plays-tragedy-nav-bar, #plays-history-nav-bar, li a:hover {
+//	color: white;
+//}
+//
+//#plays-comedy-nav-bar {
+//	display: inline-block;
+//	width: 25%;
+//	list-style: none;
+//	margin: 5px;
+//	padding: 10px;
+//	background-color: $category-color;
+//	text-transform: uppercase;
+//}
+//
+//#plays-history-nav-bar {
+//	position: relative;
+//	float: left;
+//	width: 20%;
+//	list-style: none;
+//	margin: 5px;
+//	padding: 10px;
+//	background-color: $category-color;
+//	text-transform: uppercase;
+//}
+//
+//#plays-tragedy-nav-bar {
+//	position: relative;
+//	float: right;
+//	width: 20%;
+//	list-style: none;
+//	margin: 5px;
+//	padding: 10px;
+//	background-color: $category-color;
+//	text-transform: uppercase;
+//}
+//
+//#plays-history-nav-bar li a{
+//	text-decoration: none;
+//	float: center;
+//}
+//
+//#plays-comedy-nav-bar li a{
+//	text-decoration: none;
+//	float: center;
+//}
+//
+//#plays-tragedy-nav-bar li a{
+//	text-decoration: none;
+//	float: center;
+//}
