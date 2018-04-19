@@ -10,7 +10,6 @@ class EditsController < ApplicationController
   #   Line.curr_play_id = params[:id]
   # end
 
-
   def show
 
 
@@ -19,22 +18,22 @@ class EditsController < ApplicationController
     cookies[:play_id] = params[:id]#gang gang
 
 
-    # puts "The current user is: #{current_user.id} and the current group is #{current_user.groups_id}"
-
     # get the group number associated with this row in the Groups DB
     x = Group.find_by_sql [ "select * from Groups where id = ?",current_user.groups_id]
     groupNum = x[0].groupNum
 
-    # cookies[:group_number] = 2
-    #
+    # puts "THE THING IS :: #{cookies[:group_number]}"
+    # puts "THE CLASS THING IS :: #{cookies[:group_number].class}"
+
+    # add to the cookie as the current Group Number
+    if cookies[:group_num].nil?
+      cookies[:group_num] = -1
+    end
     puts "THE THING IS :: #{cookies[:group_number]}"
 
     puts "THE CLASS THING IS :: #{cookies[:group_number].class}"
 
-    cookies[:group_number] = groupNum
-
-    puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
-
+    # puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
 
 
     #be sure to change this so group id is the cookie so we can more easily change it
@@ -47,6 +46,7 @@ class EditsController < ApplicationController
     end
 
     # get the first element from the array
+    # this edit Object is used at the front-end
     @edit = @edit[0]
 
     l = Line.new
@@ -59,6 +59,7 @@ class EditsController < ApplicationController
     @scene = l.renderActScene(cookies[:play_id],1)
     @scene_id_map = a.getAllActScenes(cookies[:play_id])
     # puts "Out: #{a.getAllActScenes(cookies[:play_id])}"
+
  end
 
   def compress
@@ -89,6 +90,7 @@ class EditsController < ApplicationController
   def self.makeEdit(user_id, play_id, group_id)
     @play = Play.find(play_id)
     @edit = Edit.create({:user_id => user_id, :play_id => play_id, :groups_id => group_id})
+    puts "Make the object"
     return @edit
   end
 
