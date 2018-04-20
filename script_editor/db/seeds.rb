@@ -60,7 +60,7 @@ if fullPlays
 else
 
   # Here's what you edit if you want to seed some other set of files. you can expand this list in standard ruby synatx
-  files = ["FolgerDigitalTexts_XML_Complete/Err.xml"]
+  files = ["FolgerDigitalTexts_XML_Complete/Err.xml","FolgerDigitalTexts_XML_Complete/MM.xml"]
 
 end
 

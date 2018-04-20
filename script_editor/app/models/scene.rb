@@ -72,4 +72,15 @@ class Scene < ApplicationRecord
     return out
   end
 
+  # def getFirstScenePlay(play_id)
+  #   acts = Act.find_by_sql ["select * from Acts where play_id = ? order by id", play_id]
+  #
+  #   first_act_id = acts.first.id
+  #   scene_id_lst = Scene.find_by_sql ["select id from Scenes where act_id = ? order by id", first_act_id]
+  #
+  #   first_scene_id = scene_id_lst[0].id
+  #   return first_scene_id
+  # end
+  #
+
 end

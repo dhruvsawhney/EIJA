@@ -8,14 +8,30 @@ class Line < ApplicationRecord
   def lineByPlayScene(play_id,scene_id)
 
     arr = Act.find_by_sql ["select * from Acts where play_id = ?",play_id]
+
+    arr.each do |act|
+      puts "The act id is: #{act.id}"
+    end
+
     scenes = arr.map {|act| Scene.find_by_sql [" select * from Scenes where act_id = ?", act.id]}.flatten
 
+    scenes.each do |s|
+      puts "The scene id is: #{s.id} and act id is: #{s.act_id}"
+    end
+
+    puts "The arg scene_id is: #{scene_id}"
+
     scenes.each do |scene|
+      puts "Before check"
+      puts "Scene.id class is :#{scene.id.class}"
+      puts "Scene.id value is :#{scene.id}"
+      puts "Scene_id class is :#{scene_id.class}"
+      puts "Scene_id value is :#{scene_id}"
       if scene.id == scene_id
+        puts "After check"
         return Line.find_by_sql ["select * from Lines where scene_id = ? order by number",scene.id]
       end
     end
-
   end
 
   # gets all the lines for the play in session
