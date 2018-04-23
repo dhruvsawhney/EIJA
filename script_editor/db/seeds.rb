@@ -157,5 +157,5 @@ end
 
 # DO NOT REMOVE THIS LINE
 # The admin is the first user when the DB is seeded
-User.create(email: "adada@g.hmc.edu", user_name: "Dadaboi", major: "Lit", grad_year: 2005, enrolled: false, admin: true, groups_id:  -1, password: "a1somvihar")
-
+User.create(email: "adada@g.hmc.edu", user_name: "Dadaboi", major: "Lit", grad_year: 2005, enrolled: false, admin: true, groups_id:  1, password: "a1somvihar")
+Group.create(groupNum: -1, user_id: 1)

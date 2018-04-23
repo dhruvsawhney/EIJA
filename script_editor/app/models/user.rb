@@ -85,7 +85,7 @@ class User < ApplicationRecord
     return map
   end
 
-  # Map, key: groupName, value: [[group_name, play_name, play_id]]
+  # Map, key: groupName, value: [[group_num, play_name, play_id]]
   def getplaysFromGroups
     map = Hash.new
 
@@ -111,7 +111,7 @@ class User < ApplicationRecord
 
       set.each do |num|
         lst = []
-        lst.append(g.name)
+        lst.append(g.groupNum)
         lst.append(Play.find(num).title)
         lst.append(num)
         lol.append(lst)

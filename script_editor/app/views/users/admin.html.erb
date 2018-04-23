@@ -122,6 +122,7 @@ It can be found at app/views/users/show.html.erb -->
                                 console.log(data);
                             });
                     })
+                    bindGroupNumbCookieSeter()
                 });
 
                 // When the user clicks anywhere outside of the modal, close it
@@ -131,17 +132,38 @@ It can be found at app/views/users/show.html.erb -->
                         modal.style.display = "none";
                     }
                 }
+
+                //to whoever comes next Im sorry inline JS is such bad style but you know time
+
+                function bindGroupNumbCookieSeter() {
+                  $(".groupLink").click(function(){
+                     var groupNum = this.id.slice(8);
+                     //so I do this kind of hack alot so I should prob explain it
+                      //so what we want to do is redirect and set the cookie actually I should prob
+                      //check to see if this will work any way
+                      //to avoid duplicate id's in a document aka andouther element with
+                      //id 1 i append a string to it and when I extract the id I slice off
+                      //the rest cool
+                      document.cookie = "group_num" + "=" + groupNum + ";path=/";
+                     // window.location.href=<%= "edits/"  + "1" %>;//this can def be done in a beter way
+                  });
+                }
+
             </script>
     </div>
 
     <ul class="list-group">
 
       <br>
+      <h1>  <%= @group_users %> </h1>
 
       <h2 style="font-weight: normal">Groups</h2>
-        <% groups = current_user.getGroups %>
-        <% groups.uniq.each do |group| %>
-           <a style="padding-left: 5px; font-size: 100%" class="groupToggle" id=<%="group" + String(group[1])%> href="edits/play_id"> <%=group[0]%> </a>
+
+        <% @playGroupData.each do |groupname, otherTing| %>
+            <h4><%= groupname %></h4>
+        <% otherTing.each do |groupInfo | %>
+           <a style="padding-left: 5px; font-size: 100%" class="groupLink" href=<%= "/edits/"  + groupInfo[2].to_s %>   id=<%="groupNum" + groupInfo[0].to_s %> > <%= groupInfo[1].to_s%> </a>
+          <% end %>
         <% end %>
     </ul>
 
