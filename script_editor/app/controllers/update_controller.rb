@@ -30,7 +30,26 @@ class UpdateController < ApplicationController
     	end
   	end
 
-  	def update_cuts
+  	def makeGroups
+  		
+  		respond_to do |format|
+    		groups = 	{
+			        "meta" => {
+			            "usersID" => params[:meta][:usersID],
+						"name" => params[:meta][:name]
+			        }
+			    }
+    		format.json  { render :json => groups} 
+  	end
+
+  	def makeAdmin
+  		respond_to do |format|
+    		admins = 	{
+			        "meta" => {
+			            "usersID" => params[:meta][:usersID]
+			        }
+			    }
+    		format.json  { render :json => admins} 
   	end
 end
 

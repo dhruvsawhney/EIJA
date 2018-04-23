@@ -35,5 +35,7 @@ Rails.application.routes.draw do
   #resources :update, defaults: { format: 'json' }
   #post 'update/update_cuts' => 'update#update_cuts', defaults: { format: 'json' }
   post'/update/show' => 'update#show', defaults: { format: 'json' }
+  post'/update/makeGroups' => 'update#makeGroups', defaults: { format: 'json' }
+  post'/update/makeAdmin' => 'update#makeAdmin', defaults: { format: 'json' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
