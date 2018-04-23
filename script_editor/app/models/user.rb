@@ -63,4 +63,65 @@ class User < ApplicationRecord
     return active_users
   end
 
+  #output: map, Key: GroupName, value: lol of user_id and user_name
+  def getUsersFromGroups
+    groups = Group.find_by_sql("select distinct(name), groupNum from Groups where name <> '' order by name ")
+
+    map = Hash.new
+
+    groups.each do |g|
+      members = Group.find_by_sql ["select * from Groups where name = ? and user_id <> 1", g.name]
+      lol = []
+      members.each do |m|
+        lst = []
+        lst.append(m.user_id)
+        name = User.find(m.user_id).user_name
+        lst.append(name)
+        lst.append(g.groupNum)
+        lol.append(lst)
+      end
+      map[g.name] = lol
+    end
+    return map
+  end
+
+  # Map, key: groupName, value: [[group_num, play_name, play_id]]
+  def getplaysFromGroups
+    map = Hash.new
+
+    groups = Group.find_by_sql("select distinct(name), groupNum from Groups where name <> '' order by name ")
+
+    groups.each do |g|
+      members = Group.find_by_sql ["select * from Groups where name = ? and user_id <> 1", g.name]
+      set = Set.new
+
+      members.each do |m|
+        edits = Edit.find_by_sql ["select * from Edits where user_id = ?", m.user_id]
+
+        edits.each do |edit|
+          groupNum = Group.find(edit.groups_id).groupNum
+
+          if g.groupNum == groupNum # the edit was made as part of the current group
+            set.add(edit.play_id)
+          end
+        end
+      end
+
+      lol = []
+
+      set.each do |num|
+        lst = []
+        lst.append(g.groupNum)
+        lst.append(Play.find(num).title)
+        lst.append(num)
+        lol.append(lst)
+      end
+
+      map[g.name] = lol
+    end
+
+    return map
+  end
+
+
 end

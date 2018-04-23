@@ -121,6 +121,14 @@ class CutsController < ApplicationController
 
         if binOpt == "true"
 
+
+          # remove from the uncut table
+          @uncut = Uncut.where(word_id: wordID, groupNum: group_number)
+
+          if @uncut.length != 0
+            Uncut.where(word_id: wordID, groupNum: group_number).first.delete
+          end
+
           @cut = Cut.create(edit_id: editId,word_id: wordID, groupNum: group_number)
 
           # get the word -> the line.id of the word -> update the length of the line with the update method
@@ -140,12 +148,26 @@ class CutsController < ApplicationController
             end
           end
         else
-          # get the cut data-entry with the appropriate entries
-          #  delete it from the DB
-          # @cut = Cut.where(edit_id: editId,word_id: wordID).first.delete
+
+          Uncut.create(edit_id: editId, word_id: wordID, groupNum: group_number)
 
           # use the groupNumber instead
           # at the lines-render, only render for the current group
+
+          # puts "The word id is: #{wordID}"
+          # puts "The group number is: #{group_number}"
+
+          @cut = Cut.where(word_id: wordID, groupNum: group_number)
+
+          # this is a bug
+          # for some reason the wordID and groupNumber (more likely this) is not rendered
+          if @cut.length == 0
+            next
+          end
+
+          # puts "The class is: #{@cut}"
+          # puts "The class length is zero: #{@cut.length == 0}"
+
           @cut = Cut.where(word_id: wordID, groupNum: group_number).first.delete
           # increment the line-length
           @word = @cut.word
