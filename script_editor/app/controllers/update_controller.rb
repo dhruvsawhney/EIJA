@@ -57,7 +57,6 @@ class UpdateController < ApplicationController
 			    }
     		format.json  { render :json => admins} 
   	end
-=======
 
 	def userNames
 		#do things here
@@ -71,7 +70,6 @@ class UpdateController < ApplicationController
 			format.json  { render :json => out}
 			end
 		end
->>>>>>> AlasdairSpringBreakSprint
 end
 
 	# return the list of recent cut wordIDs
