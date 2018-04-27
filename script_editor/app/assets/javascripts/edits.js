@@ -2,30 +2,9 @@
 // If you dont know JS its ok Im amazing at commenting
 // Also read examples
 // And stackoverflow
-// Jquery docs are some of the best around but I still hate reading so you know
-// life advice be aggressively lazy
+// Jquery docs are some of the best around but I still hate reading
+// life advice :: be aggressively lazy
 
-// $(function() {
-//     $(document).ready(function() {
-//         console.log("set up");
-//         $('.accordion').find('.accordion-toggle').click(function() {
-//             $(this).next().slideToggle('600');
-//             $(".accordion-content").not($(this).next()).slideUp('600');
-//         });
-//         $('.accordion-toggle').on('click', function() {
-//             $(this).toggleClass('active').siblings().removeClass('active');
-//         });
-//         //renderHelper(1);//this will need to be fixed later
-//         detectSelections();
-//         $('.dropdown-toggle').dropdown()
-//
-//     });
-//     analytics();
-//     renderScene();
-//     iuUpdate(true, true);
-//     bindGroupToggle();
-//
-// });
 
 /*
     Above is pro hax
@@ -48,8 +27,7 @@ var heartBeat = 5000; //update UI every milliseconds
 var payLoadG = [];
 var out = {
         "meta" : {
-            "playID" : getCookie("play_id"), //should not be hardcoded
-            //"editID" : 1, //Xans gon take u Xans gonna betray u
+            "playID" : getCookie("play_id"),
             "groupNum": getCookie("group_num"),
             "cutOrUncut" : null //tells u if its cut or uncut
         },
@@ -91,7 +69,7 @@ function bindQueScript() {
 }
 
 /**
- * Will handel loading difrent scences into the Play area
+ * Will handle loading different scenes into the Play area
  */
 function renderScene()
 {
@@ -115,7 +93,7 @@ function ScenerenderHelper(scenceId) {
         });
 }
 /**
- * This method handels detecting what selection the user is making
+ * This method handles detecting what selection the user is making
  * to the text so if they want to cut we need to know what they are selecting
  * so here is what we do. Say you click then every element you drag over will then
  * be added to a seleciton when you lift your mouse up Ill make and AJAX call
@@ -125,7 +103,7 @@ function ScenerenderHelper(scenceId) {
  * Boss like to dog I been ready my click been ready I got go get it my name gonna hold up my team
  * gonna hold up miss me with that ... Im not a gang member Im a tourist
  *
- * mabey you and I were ment to be Im crazy you aint by tokens no more you just role at the rink
+ * mabye you and I were meant to be Im crazy you aint by tokens no more you just role at the rink
  */
 function detectSelections() {
     $(".word")
@@ -251,7 +229,6 @@ function sendPayload() {
         out = {
             "meta" : {
                 "playID" : getCookie("play_id"), //should not be hardcoded
-                //"editID" : 1, //Xans gon take u Xans gonna betray u
                 "cutOrUncut" : null, //tells u if its cut or uncut
                 "groupNum": getCookie("group_num")
             },
@@ -275,11 +252,10 @@ function iuUpdate(heartBeatOrUpdate, getAllOrLastInterval) {
         url: '/update/show',
         data: {
             "meta": {
-                //"editID" : $(".playEditId")[0].id,
                 "timePeriodFlag": getAllOrLastInterval,
                 "sceneID" : $(".sceneName")[0].id.slice(9),
                 "groupNum": getCookie("group_num"),
-                "playID" : getCookie("play_id"), //should not be hardcoded
+                "playID" : getCookie("play_id"),
 
             }
         }
@@ -337,27 +313,6 @@ function bindGroupToggle() {
 }
 
 
-/** When the user clicks on the button,
- * toggle between hiding and showing the dropdown content
- */
-// function groupDropdown() {
-//     document.getElementById("myDropdown").classList.toggle("show");
-// }
-//
-// // Close the dropdown menu if the user clicks outside of it
-// window.onclick = function(event) {
-//   if (!event.target.matches('.dropbtn')) {
-//
-//     var dropdowns = document.getElementsByClassName("dropdown-content");
-//     var i;
-//     for (i = 0; i < dropdowns.length; i++) {
-//       var openDropdown = dropdowns[i];
-//       if (openDropdown.classList.contains('show')) {
-//         openDropdown.classList.remove('show');
-//       }
-//     }
-//   }
-// }
 
 /**
  * Take the cookiename as parameter (cname).

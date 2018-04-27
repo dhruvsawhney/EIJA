@@ -6,9 +6,6 @@ class SceneRenderController < ApplicationController
     @scene_number = sceneQuery.number
     @act_number = Act.where({id: sceneQuery.act_id})[0].number
     @scene = Line.new.renderActScene(Integer(cookies[:play_id]),Integer(params[:id]),Integer(cookies[:group_num]))
-    # @scene.each do |p|
-    #   puts "#{p}"
-    # end
     render :layout => false
   end
 end

@@ -8,12 +8,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  # adds users into groups of size 1 with a group_number of -1
+  # all users have an individual -1 group
+  # this allows users to make edits as individual users
   def addUserGroupRelation
     group_record = Group.create(groupNum: -1, user_id: self.id)
     User.update(self.id, :groups_id => group_record.id)
   end
 
-  # list all active groups (that are not singleton users)
+  # list all active groups (that are not singleton users (of groupNum -1))
   # output: a LOL where the first element is the groupName and the second element is the groupNumber
   def getGroups
     # -1 is the default for single users
@@ -30,20 +33,18 @@ class User < ApplicationRecord
 
   # list all groups a user is part of
   # output: Hash, key: user_id, value: list of [[groupName, groupNum, groupId]]
-  #
-  # note: groupId of -1 is for every user
   def getUserGroups(userID)
     map = Hash.new
 
-      groups = Group.find_by_sql ["select groupNum, name from Groups where user_id = ?", userID]
-      value = []
-      for i in 0...groups.length
-        inLst = []
-        inLst.append(groups[i].name)
-        inLst.append(groups[i].groupNum)
-        value.append(inLst)
-      end
-      return value
+    groups = Group.find_by_sql ["select groupNum, name from Groups where user_id = ?", userID]
+    value = []
+    for i in 0...groups.length
+      inLst = []
+      inLst.append(groups[i].name)
+      inLst.append(groups[i].groupNum)
+      value.append(inLst)
+    end
+    return value
   end
 
 
@@ -56,7 +57,7 @@ class User < ApplicationRecord
     users.each do |usr|
       # admin
       if usr.id != 1
-        lst = [usr.id,usr.user_name]
+        lst = [usr.id, usr.user_name]
         active_users.append(lst)
       end
     end
@@ -75,7 +76,9 @@ class User < ApplicationRecord
       members.each do |m|
         lst = []
         lst.append(m.user_id)
-        # do not check database if 0 -- bug fix but needs reason
+        # BUG ALERT :: user_id is 0 at times that causes a server error
+        # skip the iteration that breaks the loop
+        # needs investigation
         if m.user_id == 0
           next
         end
@@ -126,6 +129,4 @@ class User < ApplicationRecord
 
     return map
   end
-
-
 end

@@ -39,12 +39,11 @@ class Group < ApplicationRecord
   end
 
 
-  # groupId does not get reset to 1 when I remove all entries but defaults to 4 if 3 deleted
+  # BUG ALERT IN DB :: groupId does not get reset to 1 when I remove all entries but defaults to 4 if 3 deleted
+  # BUG ALERT :: need to ensure that Group names are madatory when groups are made
 
   # a list of userIds
   # void: adds "" users to a new group with a new group Number
-
-  # Ensure the GroupName is unique
   def createGroup(lst, groupName)
     puts " THE LIST IS: #{lst}"
 

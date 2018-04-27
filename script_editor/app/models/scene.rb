@@ -6,17 +6,14 @@ class Scene < ApplicationRecord
 
   def getAllActScenes(play_id)
     arr = Act.find_by_sql ["select * from Acts where play_id = ?",play_id]
-
     scenes = arr.map {|act| Scene.find_by_sql [" select * from Scenes where act_id = ?", act.id]}.flatten
-    puts"scenes: #{scenes}"
-    puts"arr: #{arr}"
+
     # edge-case
     if scenes.size == 0
       return []
     end
     out = Hash.new()
     result = []
-    puts"push: #{scenes}"
 
     # add the first scene
     fst_scene = scenes[0]
@@ -29,14 +26,9 @@ class Scene < ApplicationRecord
       sub[curr_scene.number] = curr_scene.id
       if out.key?(current_act_num)#if the act key is in hash
         out[current_act_num] = out[current_act_num].append(sub)
-      else#if the key is not on the hash
+      else  #if the key is not on the hash
         out[current_act_num] = [sub]
       end
-      # puts"number: #{curr_scene.number}"
-      # puts"Scene_id: #{curr_scene.id}"
-      # puts"Act_Id: #{curr_scene.act_id}"
-      # puts "Act Num: #{Act.where({id: curr_scene.act_id})[0].number}"
-      # puts " empty #{out}"
 
       # act-id is different
       if curr_scene.act_id != result[result.size-1][0]
@@ -71,16 +63,5 @@ class Scene < ApplicationRecord
     puts "OUT: #{out}"
     return out
   end
-
-  # def getFirstScenePlay(play_id)
-  #   acts = Act.find_by_sql ["select * from Acts where play_id = ? order by id", play_id]
-  #
-  #   first_act_id = acts.first.id
-  #   scene_id_lst = Scene.find_by_sql ["select id from Scenes where act_id = ? order by id", first_act_id]
-  #
-  #   first_scene_id = scene_id_lst[0].id
-  #   return first_scene_id
-  # end
-  #
 
 end
