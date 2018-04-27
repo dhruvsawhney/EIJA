@@ -307,6 +307,7 @@ function bindGroupToggle() {
         $("#dropdownMenuButton").html(this.text);
         //console.log($(".sceneName")[0].id.slice(9));
         ScenerenderHelper($(".sceneName")[0].id.slice(9));
+        console.log("render scene called id = " + $(".sceneName")[0].id.slice(9) );
        // iuUpdate(false, false);//lol just saw this name, this will call update once so new edits are
         //reflected on page
     });
