@@ -54,14 +54,14 @@ Datatables:  Gem for adding tables to the Admin page
 
 
 Installation :: 
- 1.	Go to GitHub
-	2.	Git clone https://github.com/dhruvsawhney/EIJA.git
-	3.	Open project in IDE of choice
-	4.	Open terminal and navigate to script_editor directory 
-	5.	Copy “bin/rails db:migrate RAILS_ENV=development” into Terminal and press Enter 
-	6.	Copy “rake db:seed” into Terminal and press Enter 
-	7.	Copy “rails s” into Terminal and press Enter 
-	8.	Copy “http://localhost:3000” url and paste into browser 
+1. Go to GitHub
+2. Git clone https://github.com/dhruvsawhney/EIJA.git
+3. Open project in IDE of choice
+4. Open terminal and navigate to script_editor directory 
+5. Copy “bin/rails db:migrate RAILS_ENV=development” into Terminal and press Enter 
+6. Copy “rake db:seed” into Terminal and press Enter 
+7. Copy “rails s” into Terminal and press Enter 
+8. Copy “http://localhost:3000” url and paste into browser 
 
 Seeding
 
@@ -76,9 +76,6 @@ In the script_editor directory enter these commands rails db:migrate
 rails db:seed
 
 Wait as the database populates (this should only take a max of 10 minutes if you are seeding the testing play, but upwards for 2 hours for seeding all of the plays.
-
-
-
 
 
 Functionality
@@ -125,7 +122,6 @@ Often as students edit a play, it is important to know the modified number of li
 
 Known Bugs
 
-
 Occasionally, when the user mode is switched, a javascript error occurs of the form "invalid id". However, when cuts are made to the play, there are no issues with the core-functionality
 
-
+Occsionally, the user needs to refresh the edits page (cmd + r) for the editing (cuts and uncuts) to start working.
