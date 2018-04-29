@@ -53,10 +53,15 @@ sqlite3: Gem that simplifies connection between Ruby on Rails and sqlite3.
 Datatables:  Gem for adding tables to the Admin page
 
 
-Installation :: **********************************************
- 
-
-
+Installation :: 
+ 1.	Go to GitHub
+	2.	Git clone https://github.com/dhruvsawhney/EIJA.git
+	3.	Open project in IDE of choice
+	4.	Open terminal and navigate to script_editor directory 
+	5.	Copy “bin/rails db:migrate RAILS_ENV=development” into Terminal and press Enter 
+	6.	Copy “rake db:seed” into Terminal and press Enter 
+	7.	Copy “rails s” into Terminal and press Enter 
+	8.	Copy “http://localhost:3000” url and paste into browser 
 
 Seeding
 
