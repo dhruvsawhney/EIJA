@@ -124,6 +124,8 @@ Often as students edit a play, it is important to know the modified number of li
 
 ## Known Bugs
 
+Note: Our project has a dependency for the Sessions gem. This gem works with versions less than Ruby 2.5. On our systems, we have Ruby 2.4.1 installed. The software login dashboard breaks if the correct version of Ruby (2.4 in this case) is not installed.
+
 Occasionally, when the user mode is switched, a javascript error occurs of the form "invalid id". However, when cuts are made to the play, there are no issues with the core-functionality
 
 Occsionally, the user needs to refresh the edits page (cmd + r) for the editing (cuts and uncuts) to start working.
