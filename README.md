@@ -29,6 +29,8 @@ The major components that need to be installed are: ruby, ruby bundler, rails an
 
 MAC OSX
 
+Note: Our project has a dependency for the Sessions gem. This gem works with versions less than Ruby 2.5. On our systems, we have Ruby 2.4.1 installed.
+
 Using homebrew (https://brew.sh/) install ruby and rbenv. If you already have a working rails installation you can skip most of these steps just make sure to have installed sqlite3 through brew. Info for this section loving stolen with credit from this awesome guide: https://gorails.com/setup/osx/10.13-high-sierra
 
 1. brew install rbenv ruby-build
@@ -54,6 +56,9 @@ Datatables:  Gem for adding tables to the Admin page
 
 
 Installation :: 
+
+Note: Our project has a dependency for the Sessions gem. This gem works with versions less than Ruby 2.5. On our systems, we have Ruby 2.4.1 installed.
+
 1. Go to GitHub
 2. Git clone https://github.com/dhruvsawhney/EIJA.git
 3. Open project in IDE of choice
