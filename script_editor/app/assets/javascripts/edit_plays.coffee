@@ -6,10 +6,7 @@
 ##Save that the mouse is down.
 #
 
-console.log("From Coffee")
-(($) ->) jQuery
 
-console.log($(".script-main"))
 #drag = (e) ->
 #  mousedrag = true
 #  origId = parseInt(e.target.id)

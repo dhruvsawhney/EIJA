@@ -8,17 +8,17 @@ $nav-border-color: #000033;
 $nav-first-row-color: #7f7fbf;
 $nav-second-row-color: #b2b2ff;
 
-@media print { 
-    .noprint { 
-        display:none; 
+@media print {
+    .noprint {
+        display:none;
     }
 }
 
 // The background color for the view is controlled within the view itself.
-body { 
-    font-family: 'Times New Roman'; 
-    font-size: 14px; 
-    margin:10px 0px; 
+body {
+    font-family: 'Times New Roman';
+    font-size: 14px;
+    margin:10px 0px;
     padding:0px;
 }
 
@@ -29,7 +29,7 @@ a:hover {
 }
 
 ////////////////////////////////
-// For the script display 
+// For the script display
 // (non-editable script items)
 ////////////////////////////////
 
@@ -58,27 +58,17 @@ p.speaker {
     display: inline;
 }
 
-br { 
-    clear:both; 
+br {
+    clear:both;
 }
 
 /////////////////////////////////
 // For script's page sections
 /////////////////////////////////
 
-// This creates the navigation bar on the 
+// This creates the navigation bar on the
 // left side of the view.
-div.script-side-bar {
-    position: fixed;
-    width: 20%;
-    overflow-y: scroll;
-    top: 6%;
-    bottom: 0;
-    left: 0;
-    background-color: $nav-back-color;
-    z-index: 1;
-    margin-right: 1%;
-}
+
 
 div.script-main {
     position: fixed;
@@ -181,7 +171,7 @@ div.sceneDiv {
     padding: 0px;
     margin: 0px;
     margin-left: -5px;
-    border:none; 
+    border:none;
     font-size: 14px;
 }
 
@@ -261,7 +251,7 @@ div.sceneDiv {
      background:none!important;
      color:#000000;
      text-decoration: none;
-     border:none; 
+     border:none;
      text-align: left;
      margin-left: 25px;
      padding:0!important;
@@ -316,8 +306,8 @@ span.edit-explanation-text {
 /////////////////////////////////
 
 div.play-navigation {
-    float: left; 
-    width: 80%; 
+    float: left;
+    width: 80%;
     background-color: $nav-border-color;
     border-style: solid;
     border-width: 1px;
@@ -326,7 +316,7 @@ div.play-navigation {
     margin-bottom: 30px;
     margin-right: 25px;
     margin-top: 10%;
-} 
+}
 
 button.nav-synopsis, button.nav-analytics {
     height: 40px;
@@ -351,7 +341,7 @@ button.nav-analytics {
     transition: 0.3s;
 }
 
-button.nav-act { 
+button.nav-act {
     height: 40px;
     text-align: left;
     background-color: $nav-first-row-color;
@@ -361,7 +351,7 @@ button.nav-act {
     width: 100%;
     transition: 0.3s;
     position: relative;
-} 
+}
 
 button.nav-scene {
     height: 30px;
@@ -374,7 +364,7 @@ button.nav-scene {
     float: right;
     transition: 0.3s;
     position: relative;
-} 
+}
 
 /* The Modal (background) */
 .shown-modal {
@@ -408,8 +398,8 @@ button.nav-scene {
 }
 
 .close:hover,
-.close:focus, 
-.close2:hover, 
+.close:focus,
+.close2:hover,
 .close2:focus {
     color: black;
     text-decoration: none;
@@ -429,7 +419,7 @@ button.nav-scene {
 // stage : stage directions
 // sound : sound cues
 // sp : speech
-// speaker : sppech prefix
+// speaker : spaeech prefix
 // ab : within sp tags, contains text of speech
 // w : word
 // c : space
@@ -471,7 +461,7 @@ sp { background-color: #84EBF0; display: block; }
 
 milestone{ display: block; }
 
-// I don't know why this doesn't work for Act and Scene headers... 
+// I don't know why this doesn't work for Act and Scene headers...
 head {
 	display: block;
 	font-size: 28px;

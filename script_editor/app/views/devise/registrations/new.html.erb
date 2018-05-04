@@ -3,7 +3,7 @@ It can be found at app/views/devise/registrations/new.html.erb -->
 
 <!-- This file uses the app/assets/stylesheets/registrations.scss file for controlling its css. -->
 
-<html><body style = "background-color: #faebd7; padding-top: 0px;">
+<html><body style = "background-color: #white; padding-top: 0px;">
 
 <h2 style = "color: black;">Sign Up</h2>
 
@@ -13,7 +13,7 @@ It can be found at app/views/devise/registrations/new.html.erb -->
 <div class="registration-box">
 
   <div class="field" style="float:left">
-    <%= f.label :email, "Email" %> 
+    <%= f.label :email, "Email" %>
     <br>
     <%= f.email_field :email, autofocus: true %>
   </div>
@@ -54,7 +54,7 @@ It can be found at app/views/devise/registrations/new.html.erb -->
 
   <div class="field" style="float:left">
     <!-- NOTE: Passwords require a minimum of six characters. -->
-    <%= f.label :password, "Password" %> 
+    <%= f.label :password, "Password" %>
     <br>
     <%= f.password_field :password, autocomplete: "off" %>
   </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180225010247) do
+ActiveRecord::Schema.define(version: 20180420022906) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
@@ -23,8 +23,9 @@ ActiveRecord::Schema.define(version: 20180225010247) do
   create_table "cuts", force: :cascade do |t|
     t.integer  "edit_id"
     t.integer  "word_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "groupNum",   default: -1
     t.index ["edit_id"], name: "index_cuts_on_edit_id"
     t.index ["word_id"], name: "index_cuts_on_word_id"
   end
@@ -34,13 +35,25 @@ ActiveRecord::Schema.define(version: 20180225010247) do
     t.integer  "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "groups_id"
+    t.index ["groups_id"], name: "index_edits_on_groups_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.integer  "groupNum"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "user_id"
+    t.string   "name",       default: ""
+    t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
   create_table "line_cuts", force: :cascade do |t|
     t.integer  "edit_id"
     t.integer  "line_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "groupNum",   default: -1
     t.index ["edit_id"], name: "index_line_cuts_on_edit_id"
     t.index ["line_id"], name: "index_line_cuts_on_line_id"
   end
@@ -71,24 +84,37 @@ ActiveRecord::Schema.define(version: 20180225010247) do
     t.index ["act_id"], name: "index_scenes_on_act_id"
   end
 
+  create_table "uncuts", force: :cascade do |t|
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "edit_id"
+    t.integer  "word_id"
+    t.integer  "groupNum",   default: -1
+    t.index ["edit_id"], name: "index_uncuts_on_edit_id"
+    t.index ["word_id"], name: "index_uncuts_on_word_id"
+  end
+
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "user_name"
     t.string   "major"
     t.integer  "grad_year"
     t.boolean  "enrolled"
+    t.boolean  "admin",                  default: false
+    t.integer  "groups_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["groups_id"], name: "index_users_on_groups_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

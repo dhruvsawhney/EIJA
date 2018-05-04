@@ -19,19 +19,18 @@ It can be found at app/views/home/homepage.html.erb -->
       <div class="container">
         <div class="row">
           <div class="slide-text slide_style_left">
-            <h1 data-animation="animated zoomInRight">shakespeare script editor</h1>
-            <p data-animation="animated fadeInLeft">A collaborative thespian experience </p>
+            <h1 data-animation="animated zoomInRight">Shakespeare Script Editor</h1>
+            <p data-animation="animated fadeInLeft">A Collaborative Thespian Experience </p>
           </div>
         </div>
       </div>
     </div>
   </div>
-    <!--<div class="img-wrapper">-->
-      <!--<%= image_tag("candle.jpg", class: "img-fluid", alt: "Responsive image") %>-->
-    <!--</div>-->
+
+
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 alt-grid project wow animated animated4 fadeInLeft flip-container" ontouchstart="this.classList.toggle('hover');">
         <div class="project-hover">
-          <h2>Comedy</h2>
+          <h2>Comedies</h2>
 
           <hr />
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar ex pulvinar est laoreet ullamcorper.</p>
@@ -48,13 +47,14 @@ It can be found at app/views/home/homepage.html.erb -->
       </div>
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 alt-grid project project-4 wow animated fadeInLeft">
         <div class="project-hover">
-          <h2>Tragities</h2>
+          <h2>Tragedies</h2>
           <hr />
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar ex pulvinar est laoreet ullamcorper.</p>
           <a href="#">See Plays</a>
         </div>
       </div>
       <div class="clearfix"></div>
+
   <!--<div class="container">-->
     <!--<div class="row">-->
       <!--<div class="col-md-4"><%= image_tag("comedymask.jpeg", class: "img-fluid", alt: "Responsive image") %></div>-->
@@ -65,27 +65,31 @@ It can be found at app/views/home/homepage.html.erb -->
 
 		<br />
 
+
+	<ul id="plays-comedy-nav-bar">
+		<h2>Comedies</h2>
+		<hr style = "background-color: #faebd7"></hr>
+		<% @plays = Play.where(:category => 1) %>
+		<% @plays.each do |play| %>
+			<li class = "play-title">
+				<%= link_to play.title, edit_path(id: play.id)%>
+			</li><br>
+		<% end %>
+	</ul>
+
 		<ul id="plays-history-nav-bar">
 			<h2>Histories</h2>
 			<hr style = "background-color: #faebd7"></hr>
 			<% @plays = Play.where(:category => 0) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, play_path(play)%>
+					<%= link_to play.title, edit_path(id: play.id )%>
+					<%= current_user.id%>
 				</li><br>
 			<% end %>
 		</ul>
 
-		<ul id="plays-comedy-nav-bar">
-		    <h2>Comedies</h2>
-			<hr style = "background-color: #faebd7"></hr>
-			<% @plays = Play.where(:category => 1) %>
-			<% @plays.each do |play| %>
-				<li class = "play-title">
-					<%= link_to play.title, play_path(play)%>
-				</li><br>
-			<% end %>
-			</ul>
+
 
 		<ul id="plays-tragedy-nav-bar">
 		    <h2>Tragedies</h2>
@@ -93,7 +97,7 @@ It can be found at app/views/home/homepage.html.erb -->
 			<% @plays = Play.where(:category => 2) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, play_path(play)%>
+					<%= link_to play.title, edit_path(id: play.id)%>
 				</li><br>
 			<% end %>
 			</ul>

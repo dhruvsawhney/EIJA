@@ -60,7 +60,7 @@ if fullPlays
 else
 
   # Here's what you edit if you want to seed some other set of files. you can expand this list in standard ruby synatx
-  files = ["FolgerDigitalTexts_XML_Complete/Err.xml"]
+  files = ["FolgerDigitalTexts_XML_Complete/Err.xml","FolgerDigitalTexts_XML_Complete/MM.xml"]
 
 end
 
@@ -90,14 +90,18 @@ files.each do |file|
     puts "act" + currAct.to_s
     currAct = currAct + 1
     currScene = 1
+    # all the scenes for an act
     scenes = Nokogiri::XML(act.to_s).css('//div2')
     scenes.each do |scene|
       newscene = newact.scenes.create(number: currScene)
       currScene = currScene + 1
+      # gets all the lines in the play
       lines = Nokogiri::XML(scene.to_s).css('//sp')
+      # added the double-slash on line 101 - removed it later
       stages = Nokogiri::XML(scene.to_s).css('stage').to_a
       stages.each do |stage|
         stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f
+        # numbering them consecutively
         newstage = newscene.lines.create(number: stageN, speaker: "STAGE", isStage: true)
         newstage.words.create(text: stage.inner_text, place: 0)
       end
@@ -144,6 +148,14 @@ files.each do |file|
         end
         # the line below is the break for a lines
       end
+      # scene ends here
     end
+    # act ends here
   end
+  # file ends here
 end
+
+# DO NOT REMOVE THIS LINE
+# The admin is the first user when the DB is seeded
+User.create(email: "adada@g.hmc.edu", user_name: "Dadaboi", major: "Lit", grad_year: 2005, enrolled: false, admin: true, groups_id:  -1, password: "a1somvihar")
+

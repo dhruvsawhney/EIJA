@@ -54,4 +54,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  #testing speeds when caching
+  #config.action_controller.perform_caching = true
 end

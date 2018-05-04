@@ -1,0 +1,61 @@
+<!-- This file controls the view for user's profile pages.
+It can be found at app/views/users/show.html.erb -->
+
+<!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss -->
+
+<html>
+<body style = "background-color: white; padding-top: 0px;">
+
+<!-- This will display the name of the current user. -->
+<h1><%= current_user.user_name%>'s Admin Page</h1>
+
+<button id="myBtn">Add New Group</button>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Add Group Functionality</p>
+  </div>
+
+</div>
+
+  <TABLE style="width:50%">
+      <TR>
+          <TD class = "select">Student Groups
+            <select onChange="window.location.href=this.value">
+              <% groups = current_user.getGroups %>
+              <% groups.uniq.each do |group| %>
+                  <option value="/edits/new/<%=group[1]%>"> <%= group[0]%> </option>
+              <% end %>
+            </select>
+            <TD ALIGN="center"></TD>
+          </TD>
+      </TR>
+</TABLE>
+
+
+<TABLE style="width:50%">
+  <TR>
+    <TD class = "select"> Current Students
+      <select onChange="window.location.href=this.value">
+
+        <% @active_users.each do |usr| %>
+          <option value="<%=usr[0]%>"> <%= usr[1]%> </option>
+        <% end %>
+      </select>
+    <TD ALIGN="center"></TD>
+    </TD>
+  </TR>
+</TABLE>
+
+
+
+
+<div class="group-info" id="groupInfo">
+
+</div>
+</body>
+
+</html>

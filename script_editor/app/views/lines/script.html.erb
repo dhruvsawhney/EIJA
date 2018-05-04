@@ -1,0 +1,51 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "edits.scss" -%>
+<% end %>
+
+
+
+<% @queScript.each do |actScene, scene| %>
+  <h4>Act : <%= actScene[0] %></h4>
+  <h5>Scene : <%= actScene[1] %></h5>
+  <% scene.each do |lineGroup| %>
+    <% if lineGroup[0]=="STAGE" %>
+      <table class="script-Table">
+        <% lineGroup[1].each do |line| %>
+          <!--each line in a characters speaking part-->
+          <tr>
+            <td>
+              <em>
+                <%= line.to_s() %>
+              </em>
+            </td>
+        <% end %>
+        </tr>
+      </table>
+    <% else %>
+      <table class="script-Table">
+        <col span="1" class="lineNumer">
+        <tr>
+          <td><strong> <%= lineGroup[0] %></strong> </td>
+        </tr>
+        <% lineGroup[1].each do |lines| %>
+
+          <!--each line in a characters speaking part-->
+          <tr class="lineRow">
+            <td class ="lineNumer"></td>
+            <td class="lineText">
+              <!--render line -->
+              <%= lines %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+  <% end %>
+  <br>
+<% end %>
+
+
+<% if false %>
+  <%= @queScript %>
+
+<% end %>
